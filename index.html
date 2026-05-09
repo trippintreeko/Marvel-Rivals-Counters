@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marvel Rivals Hero Counter Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <p class="eyebrow">Community Strategy Sheet</p>
+        <h1>Marvel Rivals Hero Counters</h1>
+        <p class="subtitle">
+          Browse every hero ability and add your own weaknesses + counterplay
+          notes.
+        </p>
+        <div
+          class="site-prefs"
+          role="group"
+          aria-label="Icons shown for other heroes in each counter ability list"
+        >
+          <span class="site-prefs__label">Counter list shows</span>
+          <div class="icon-toggle">
+            <button
+              type="button"
+              id="counterIconAbility"
+              class="icon-toggle__btn is-active"
+              aria-pressed="true"
+            >
+              Ability icons
+            </button>
+            <button type="button" id="counterIconHero" class="icon-toggle__btn" aria-pressed="false">
+              Hero icons
+            </button>
+          </div>
+        </div>
+        <div class="quick-search">
+          <label for="quickHeroSearch" class="label">Quick hero jump</label>
+          <div class="quick-search__row">
+            <input
+              id="quickHeroSearch"
+              type="search"
+              list="heroNames"
+              placeholder="Search hero and press Enter..."
+            />
+            <button id="quickHeroBtn" type="button">Go</button>
+          </div>
+          <datalist id="heroNames"></datalist>
+        </div>
+        <div class="view-switch" role="tablist" aria-label="Choose page view">
+          <button
+            type="button"
+            id="viewMainBtn"
+            class="view-switch__btn is-active"
+            role="tab"
+            aria-selected="true"
+          >
+            Hero Guide
+          </button>
+          <button type="button" id="viewLookupBtn" class="view-switch__btn" role="tab" aria-selected="false">
+            Ability Counter Lookup
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside id="mainSidebar" class="sidebar">
+        <label class="label">Hero icons</label>
+        <div id="heroIconGrid" class="hero-icon-grid"></div>
+        <label for="heroSearch" class="label">Search hero</label>
+        <input id="heroSearch" type="search" placeholder="Type hero name..." />
+        <div id="heroList" class="hero-list"></div>
+      </aside>
+
+      <section id="mainContent" class="content">
+        <div id="heroMeta" class="hero-meta hidden"></div>
+        <div id="abilityGrid" class="ability-grid"></div>
+      </section>
+
+      <section id="lookupContent" class="content lookup-content hidden">
+        <div class="lookup-panel">
+          <h2>Ability Counter Lookup</h2>
+          <p class="lookup-subtitle">
+            Pick a hero, review all their abilities, then click an ability card to see everything it counters.
+          </p>
+          <div class="lookup-controls">
+            <label class="label">Choose hero</label>
+            <div id="lookupHeroIconGrid" class="hero-icon-grid lookup-hero-icon-grid"></div>
+            <label class="label">Abilities</label>
+            <div id="lookupAbilityCards" class="lookup-ability-grid"></div>
+          </div>
+        </div>
+        <div id="lookupSelectionMeta" class="lookup-selection-meta"></div>
+        <div id="lookupResults" class="lookup-grid"></div>
+      </section>
+    </main>
+
+    <template id="abilityCardTemplate">
+      <article class="ability-card">
+        <div class="ability-card__head">
+          <img class="ability-icon" alt="" />
+          <div>
+            <h3 class="ability-name"></h3>
+            <a class="source-link" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </div>
+        <p class="ability-description"></p>
+        <div class="counter-fields">
+          <div class="counter-block">
+            <h4>Weaknesses</h4>
+            <p class="counter-text js-weaknesses"></p>
+          </div>
+          <div class="counter-block">
+            <h4>Counters</h4>
+            <p class="counter-text js-counters"></p>
+          </div>
+          <div class="counter-block">
+            <h4>Extra Notes</h4>
+            <p class="counter-text js-notes"></p>
+          </div>
+          <div class="counter-block">
+            <h4>Counter Abilities (Other Heroes)</h4>
+            <ul class="counter-list js-counter-abilities"></ul>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
