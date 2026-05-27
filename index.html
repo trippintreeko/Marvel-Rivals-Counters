@@ -11,6 +11,15 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <!-- Vercel Web Analytics (works when deployed on Vercel with Analytics enabled) -->
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
     <header class="topbar">
@@ -36,7 +45,12 @@
             >
               Ability icons
             </button>
-            <button type="button" id="counterIconHero" class="icon-toggle__btn" aria-pressed="false">
+            <button
+              type="button"
+              id="counterIconHero"
+              class="icon-toggle__btn"
+              aria-pressed="false"
+            >
               Hero icons
             </button>
           </div>
@@ -64,7 +78,13 @@
           >
             Hero Guide
           </button>
-          <button type="button" id="viewLookupBtn" class="view-switch__btn" role="tab" aria-selected="false">
+          <button
+            type="button"
+            id="viewLookupBtn"
+            class="view-switch__btn"
+            role="tab"
+            aria-selected="false"
+          >
             Ability Counter Lookup
           </button>
         </div>
@@ -89,11 +109,15 @@
         <div class="lookup-panel">
           <h2>Ability Counter Lookup</h2>
           <p class="lookup-subtitle">
-            Pick a hero, review all their abilities, then click an ability card to see everything it counters.
+            Pick a hero, review all their abilities, then click an ability card
+            to see everything it counters.
           </p>
           <div class="lookup-controls">
             <label class="label">Choose hero</label>
-            <div id="lookupHeroIconGrid" class="hero-icon-grid lookup-hero-icon-grid"></div>
+            <div
+              id="lookupHeroIconGrid"
+              class="hero-icon-grid lookup-hero-icon-grid"
+            ></div>
             <label class="label">Abilities</label>
             <div id="lookupAbilityCards" class="lookup-ability-grid"></div>
           </div>
