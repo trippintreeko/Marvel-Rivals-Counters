@@ -1,3 +1,16 @@
+import { Analytics } from '@vercel/analytics/next';
+ 
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <Analytics />
+    </>
+  );
+}
+ 
+export default MyApp;
+
 async function loadJson(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(`Failed to load ${path}: ${response.status}`);
