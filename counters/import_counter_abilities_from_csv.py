@@ -12,7 +12,9 @@ Optional per-entry image choice (suffix before the comma), case-insensitive:
 
 Each entry is split on the first \" - \" into counter hero + ability name (after stripping
 the suffix). Icons and descriptions are resolved from the same CSV by matching
-(hero, ability_name) with case-insensitive keys. Hero portraits come from abilities-data.json.
+(hero, ability_name) with case-insensitive keys. Rows in counters-notes.json are matched
+to CSV rows the same way, so hero/ability casing can differ between the spreadsheet and JSON.
+Hero portraits come from abilities-data.json.
 
 Each counter_abilities item is stored as:
 
@@ -72,6 +74,10 @@ def norm_ability(s: str) -> str:
     return (s or "").strip().upper()
 
 
+def norm_key(hero: str, ability: str) -> tuple[str, str]:
+    return (norm_hero(hero), norm_ability(ability))
+
+
 def parse_counter_cell(cell: str, default_display_icon: str) -> list[dict[str, str]]:
     """Turn a CSV counter string into counter_ability dicts (hero, ability_name, display_icon)."""
     default_d = normalize_display_icon(default_display_icon)
@@ -121,7 +127,7 @@ def build_ability_meta_map(csv_path: Path) -> dict[tuple[str, str], dict[str, st
 
 
 def build_counter_map(csv_path: Path) -> dict[tuple[str, str], str]:
-    """(hero, ability_name) as in JSON/CSV -> last counter string in file order (may be empty)."""
+    """(norm_hero, norm_ability) -> last counter string in file order (may be empty)."""
     last: dict[tuple[str, str], str] = {}
     with csv_path.open(encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
@@ -135,7 +141,7 @@ def build_counter_map(csv_path: Path) -> dict[tuple[str, str], str]:
             counter = (row.get("counter") or "").strip()
             if not hero or not ability:
                 continue
-            last[(hero, ability)] = counter
+            last[norm_key(hero, ability)] = counter
     return last
 
 
@@ -237,7 +243,7 @@ def apply_counters(
         for ability_name, block in abilities.items():
             if not isinstance(block, dict):
                 continue
-            key = (hero, ability_name)
+            key = norm_key(hero, ability_name)
             if key not in counter_map:
                 warnings.append((hero, ability_name, "no CSV row for this key"))
                 continue

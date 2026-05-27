@@ -364,9 +364,6 @@ function renderCounterAbilities(listEl, directList, pairList, listIconMode) {
   const merged = mergeCounterEntries(directList, pairList);
   listEl.innerHTML = "";
   if (!merged.length) {
-    const li = document.createElement("li");
-    li.textContent = "Add counter pairings in counters-notes.json";
-    listEl.appendChild(li);
     return;
   }
 
@@ -417,6 +414,19 @@ function renderCounterAbilities(listEl, directList, pairList, listIconMode) {
     li.appendChild(row);
     listEl.appendChild(li);
   }
+}
+
+function setCounterBlockVisible(markerEl, visible) {
+  const block = markerEl.closest(".counter-block");
+  if (!block) return;
+  block.classList.toggle("hidden", !visible);
+}
+
+function syncCounterFieldsVisibility(counterFieldsEl) {
+  if (!counterFieldsEl) return;
+  const blocks = counterFieldsEl.querySelectorAll(".counter-block");
+  const anyVisible = [...blocks].some((b) => !b.classList.contains("hidden"));
+  counterFieldsEl.classList.toggle("hidden", !anyVisible);
 }
 
 /**
@@ -574,21 +584,33 @@ function renderHero(
     }
 
     const note = heroNotes[ability.ability_name] || {};
-    card.querySelector(".js-weaknesses").textContent = note.weaknesses || "Add weaknesses in counters-notes.json";
-    card.querySelector(".js-counters").textContent = note.counters || "Add counterplay tips in counters-notes.json";
-    card.querySelector(".js-notes").textContent = note.notes || "Optional notes...";
+    const weaknessesEl = card.querySelector(".js-weaknesses");
+    const countersEl = card.querySelector(".js-counters");
+    const notesEl = card.querySelector(".js-notes");
+    const weaknessesText = (note.weaknesses || "").trim();
+    const countersText = (note.counters || "").trim();
+    const notesText = (note.notes || "").trim();
+    weaknessesEl.textContent = weaknessesText;
+    countersEl.textContent = countersText;
+    notesEl.textContent = notesText;
+    setCounterBlockVisible(weaknessesEl, !!weaknessesText);
+    setCounterBlockVisible(countersEl, !!countersText);
+    setCounterBlockVisible(notesEl, !!notesText);
 
     const directCounterAbilities = note.counter_abilities || [];
     const pairKey = normalizeKey(hero.hero, ability.ability_name);
     const pairedCounterAbilities = pairLookup.get(pairKey) || [];
     const counterListEl = card.querySelector(".js-counter-abilities");
-    renderCounterAbilities(counterListEl, directCounterAbilities, pairedCounterAbilities, listIconMode);
     const mergedCounterEntries = mergeCounterEntries(directCounterAbilities, pairedCounterAbilities);
+    renderCounterAbilities(counterListEl, directCounterAbilities, pairedCounterAbilities, listIconMode);
+    setCounterBlockVisible(counterListEl, mergedCounterEntries.length > 0);
     const isMatch =
       !selectedCounterHero ||
       mergedCounterEntries.some((entry) => normalize(entry.hero) === normalize(selectedCounterHero));
     card.classList.toggle("ability-card-muted", !isMatch);
     card.classList.toggle("ability-card-highlight", !!selectedCounterHero && isMatch);
+
+    syncCounterFieldsVisibility(card.querySelector(".counter-fields"));
 
     gridEl.appendChild(card);
   }

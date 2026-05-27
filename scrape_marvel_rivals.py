@@ -1,4 +1,5 @@
 import csv
+import json
 from pathlib import Path
 from typing import Dict, List
 
@@ -10,6 +11,7 @@ from openpyxl import Workbook
 BASE_URL = "https://www.marvelrivals.com/heroes/"
 OUTPUT_CSV = Path("marvel_rivals_hero_abilities.csv")
 OUTPUT_XLSX = Path("marvel_rivals_hero_abilities.xlsx")
+OUTPUT_ABILITIES_JSON = Path("abilities-data.json")
 
 
 def get_html(url: str) -> str:
@@ -25,8 +27,17 @@ def parse_hero_links(page_html: str) -> List[Dict[str, str]]:
         hero_id = (anchor.get("data-id") or "").strip()
         hero_name = (anchor.get("data-name") or "").strip()
         hero_url = (anchor.get("data-url") or "").strip()
+        icon_el = anchor.select_one("img")
+        hero_icon = (icon_el.get("src") or "").strip() if icon_el else ""
         if hero_id and hero_name and hero_url:
-            heroes.append({"hero_id": hero_id, "hero_name": hero_name, "hero_url": hero_url})
+            heroes.append(
+                {
+                    "hero_id": hero_id,
+                    "hero_name": hero_name,
+                    "hero_url": hero_url,
+                    "hero_icon": hero_icon,
+                }
+            )
     return heroes
 
 
@@ -80,6 +91,47 @@ def write_xlsx(rows: List[Dict[str, str]], output_path: Path) -> None:
     workbook.save(output_path)
 
 
+def build_abilities_data(hero_links: List[Dict[str, str]], rows: List[Dict[str, str]]) -> Dict:
+    icon_by_hero = {hero["hero_name"]: hero.get("hero_icon", "") for hero in hero_links}
+    abilities_by_hero: Dict[str, List[Dict[str, str]]] = {}
+    seen_abilities = set()
+
+    for row in rows:
+        hero = row["hero"]
+        ability = row["ability_name"]
+        key = (hero, ability)
+        if key in seen_abilities:
+            continue
+        seen_abilities.add(key)
+        abilities_by_hero.setdefault(hero, []).append(
+            {
+                "ability_name": ability,
+                "ability_icon": row["ability_icon"],
+                "ability_description": row["ability_description"],
+                "source_url": row["source_url"],
+            }
+        )
+
+    heroes = []
+    for hero in hero_links:
+        hero_name = hero["hero_name"]
+        heroes.append(
+            {
+                "hero": hero_name,
+                "hero_icon": icon_by_hero.get(hero_name, ""),
+                "abilities": abilities_by_hero.get(hero_name, []),
+            }
+        )
+    return {"heroes": heroes}
+
+
+def write_abilities_json(data: Dict, output_path: Path) -> None:
+    output_path.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     heroes_html = get_html(BASE_URL)
     hero_links = parse_hero_links(heroes_html)
@@ -100,9 +152,14 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(rows)
     write_xlsx(rows, OUTPUT_XLSX)
+    abilities_data = build_abilities_data(hero_links, rows)
+    write_abilities_json(abilities_data, OUTPUT_ABILITIES_JSON)
 
     print(f"Wrote {len(rows)} rows to {OUTPUT_CSV.resolve()}")
     print(f"Wrote {len(rows)} rows to {OUTPUT_XLSX.resolve()}")
+    print(
+        f"Wrote {len(abilities_data['heroes'])} heroes to {OUTPUT_ABILITIES_JSON.resolve()}"
+    )
 
 
 if __name__ == "__main__":

@@ -76,3 +76,12 @@ Rebuild JSON data (this keeps your existing notes/pairs and only fills missing d
 ```bash
 python build_site_data.py
 ```
+
+
+Things to run: 
+
+to pull new info from rivals website:
+
+python .\scrape_marvel_rivals.py
+
+to add counter information to comunity guide: 
