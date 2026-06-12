@@ -1,5 +1,55 @@
 {
   "hero_notes": {
+    "CYCLOPS": {
+      "Optic Blast": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Concussive Beam": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Ricochet Force": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Propulsion Burst": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Optic Ascent": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Kinetic Hover": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Ruby Rage": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Red Adamantium": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      }
+    },
     "DEVIL DINOSAUR": {
       "Primal Bite": {
         "weaknesses": "",
@@ -22799,6 +22849,12 @@
         "counter_abilities": []
       },
       "Phoenix Warrior": {
+        "weaknesses": "",
+        "counters": "",
+        "notes": "",
+        "counter_abilities": []
+      },
+      "Kinetic Claws": {
         "weaknesses": "",
         "counters": "",
         "notes": "",
