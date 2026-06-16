@@ -489,12 +489,48 @@ function renderCounterRankedHeroes(targetHero, targetAbilities, heroNotes, pairL
     .sort((a, b) => b.count - a.count || a.hero.localeCompare(b.hero));
 }
 
+function renderIdealCountersHtml(idealCounters, selectedCounterHero) {
+  if (!idealCounters || !idealCounters.length) return "";
+
+  const items = idealCounters
+    .map((entry) => {
+      const heroLabel = entry.hero || "";
+      const icon = entry.hero_icon || "";
+      const active =
+        !!selectedCounterHero && normalize(heroLabel) === normalize(selectedCounterHero);
+      return `
+        <button
+          type="button"
+          class="ideal-counter-chip${active ? " active" : ""}"
+          title="${heroLabel}"
+          data-counter-hero="${heroLabel}"
+        >
+          ${
+            icon
+              ? `<img class="hero-meta-portrait" src="${icon}" alt="${heroLabel}" />`
+              : `<span class="ideal-counter-fallback">${heroLabel.charAt(0)}</span>`
+          }
+          <span class="ideal-counter-name">${heroLabel}</span>
+        </button>
+      `;
+    })
+    .join("");
+
+  return `
+    <div class="ideal-counters-wrap">
+      <h3>Ideal Counters</h3>
+      <div class="ideal-counter-row">${items}</div>
+    </div>
+  `;
+}
+
 function renderHero(
   heroName,
   allHeroes,
   notesByHero,
   pairLookup,
   iconByHero,
+  preferredCounterHeroes,
   selectedCounterHero,
   listIconMode,
   onToggleCounterHero,
@@ -506,7 +542,9 @@ function renderHero(
   if (!hero) return;
 
   const heroNotes = notesByHero[hero.hero] || {};
+  const idealCounters = (preferredCounterHeroes && preferredCounterHeroes[hero.hero]) || [];
   const rankedCounters = renderCounterRankedHeroes(hero.hero, hero.abilities, heroNotes, pairLookup, iconByHero);
+  const idealCountersHtml = renderIdealCountersHtml(idealCounters, selectedCounterHero);
 
   heroMetaEl.classList.remove("hidden");
   const rankedHtml = rankedCounters.length
@@ -529,24 +567,31 @@ function renderHero(
 
   heroMetaEl.innerHTML = `
     <div class="hero-meta-row">
-      <div>
+      <div class="hero-meta-main">
         <div class="hero-meta-title-row">
           ${portraitHtml}
           <h2>${hero.hero}</h2>
         </div>
         <p>${hero.abilities.length} abilities listed</p>
-      </div>
-      <div class="counter-rank-wrap">
-        <h3>Counters Ranked</h3>
-        <div class="counter-hero-row">${rankedHtml}</div>
-        ${
-          selectedCounterHero
-            ? `<p class="counter-filter-active">Showing abilities countered by <strong>${selectedCounterHero}</strong> (matched first). <button type="button" class="clear-counter-filter">Clear</button></p>`
-            : ""
-        }
+        </div>
+        ${idealCountersHtml}
+      <div class="hero-meta-aside">
+        <div class="counter-rank-wrap">
+          <h3>Counters Ranked</h3>
+          <div class="counter-hero-row">${rankedHtml}</div>
+          ${
+            selectedCounterHero
+              ? `<p class="counter-filter-active">Showing abilities countered by <strong>${selectedCounterHero}</strong> (matched first). <button type="button" class="clear-counter-filter">Clear</button></p>`
+              : ""
+          }
+        </div>
       </div>
     </div>
   `;
+  for (const chip of heroMetaEl.querySelectorAll(".ideal-counter-chip")) {
+    const heroLabel = chip.dataset.counterHero || chip.title || "";
+    chip.addEventListener("click", () => onToggleCounterHero(heroLabel));
+  }
   for (const chip of heroMetaEl.querySelectorAll(".counter-hero-chip")) {
     const heroLabel = chip.querySelector("span")?.textContent || "";
     chip.classList.add("is-clickable");
@@ -624,6 +669,7 @@ async function main() {
 
   const heroes = abilityData.heroes || [];
   const notesByHero = (notesData && notesData.hero_notes) || {};
+  const preferredCounterHeroes = (notesData && notesData.preferred_counter_heroes) || {};
   const abilityMetaByKey = buildAbilityMetaByKey(heroes);
   const pairLookup = buildPairLookup((notesData && notesData.counter_pairs) || []);
   const iconByHero = new Map(heroes.map((h) => [normalize(h.hero), h.hero_icon || ""]));
@@ -854,6 +900,7 @@ async function main() {
       notesByHero,
       pairLookup,
       iconByHero,
+      preferredCounterHeroes,
       selectedCounterHero,
       counterListIconMode,
       (counterHeroName) => {

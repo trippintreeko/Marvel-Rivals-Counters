@@ -38,6 +38,7 @@ def main() -> None:
     notes_template = {}
     existing_notes = {}
     existing_pairs = []
+    existing_preferred = {}
     hero_icons = scrape_hero_icons()
 
     if COUNTERS_JSON.exists():
@@ -45,9 +46,11 @@ def main() -> None:
             current = json.loads(COUNTERS_JSON.read_text(encoding="utf-8"))
             existing_notes = current.get("hero_notes", {})
             existing_pairs = current.get("counter_pairs", [])
+            existing_preferred = current.get("preferred_counter_heroes", {})
         except Exception:
             existing_notes = {}
             existing_pairs = []
+            existing_preferred = {}
 
     with CSV_PATH.open("r", encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
@@ -119,7 +122,15 @@ def main() -> None:
             }
 
     COUNTERS_JSON.write_text(
-        json.dumps({"hero_notes": merged_notes, "counter_pairs": existing_pairs}, indent=2, ensure_ascii=False),
+        json.dumps(
+            {
+                "hero_notes": merged_notes,
+                "counter_pairs": existing_pairs,
+                "preferred_counter_heroes": existing_preferred,
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
         encoding="utf-8",
     )
 

@@ -295,9 +295,87 @@ input[type="search"] {
   flex-wrap: wrap;
 }
 
-.counter-rank-wrap {
+.hero-meta-main {
+  flex: 0 0 auto;
+  min-width: 160px;
+}
+
+.hero-meta-aside {
   margin-left: auto;
   min-width: min(560px, 100%);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.ideal-counters-wrap {
+  flex: 1;
+  min-width: 180px;
+}
+
+.ideal-counters-wrap h3 {
+  color: var(--gold);
+  font-size: 1rem;
+  text-align: right;
+  margin-bottom: 0.35rem;
+}
+
+.ideal-counter-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.ideal-counter-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.ideal-counter-chip .hero-meta-portrait {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ideal-counter-chip:hover .hero-meta-portrait,
+.ideal-counter-chip.active .hero-meta-portrait {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.35);
+}
+
+.ideal-counter-name {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 5.5rem;
+  line-height: 1.2;
+}
+
+.ideal-counter-fallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  background: #0a0f1a;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.counter-rank-wrap {
+  flex: 1;
+  min-width: 220px;
+  width: auto;
 }
 
 .counter-rank-wrap h3 {

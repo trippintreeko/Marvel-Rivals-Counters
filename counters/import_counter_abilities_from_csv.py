@@ -126,6 +126,92 @@ def build_ability_meta_map(csv_path: Path) -> dict[tuple[str, str], dict[str, st
     return meta
 
 
+PREFERRED_HEROES_COL = "Counters (prefered Heros)"
+
+
+def parse_preferred_heroes_cell(cell: str) -> list[str]:
+    """Turn a CSV preferred-heroes string into ordered unique hero names."""
+    if not cell or not str(cell).strip():
+        return []
+    out: list[str] = []
+    seen: set[str] = set()
+    for part in str(cell).split(","):
+        name = part.strip()
+        if not name:
+            continue
+        key = norm_hero(name)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(name)
+    return out
+
+
+def build_preferred_heroes_map(csv_path: Path) -> dict[str, list[str]]:
+    """norm_hero -> ordered unique preferred counter hero names from CSV."""
+    result: dict[str, list[str]] = {}
+    seen: dict[str, set[str]] = {}
+    with csv_path.open(encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        if not reader.fieldnames or PREFERRED_HEROES_COL not in reader.fieldnames:
+            return result
+        for row in reader:
+            hero = (row.get("hero") or "").strip()
+            prefs = parse_preferred_heroes_cell(row.get(PREFERRED_HEROES_COL) or "")
+            if not hero or not prefs:
+                continue
+            owner_key = norm_hero(hero)
+            if owner_key not in result:
+                result[owner_key] = []
+                seen[owner_key] = set()
+            for pref in prefs:
+                pref_key = norm_hero(pref)
+                if pref_key in seen[owner_key]:
+                    continue
+                seen[owner_key].add(pref_key)
+                result[owner_key].append(pref)
+    return result
+
+
+def build_canonical_hero_map(abilities_path: Path) -> dict[str, str]:
+    """norm_hero -> canonical hero name from abilities-data.json."""
+    data = json.loads(abilities_path.read_text(encoding="utf-8"))
+    return {
+        norm_hero(h.get("hero") or ""): (h.get("hero") or "").strip()
+        for h in data.get("heroes") or []
+        if isinstance(h, dict) and (h.get("hero") or "").strip()
+    }
+
+
+def apply_preferred_heroes(
+    data: dict,
+    preferred_map: dict[str, list[str]],
+    hero_icon_map: dict[str, str],
+    canonical_hero_map: dict[str, str],
+    hero_notes: dict,
+) -> int:
+    """Store data['preferred_counter_heroes'][owner] = [{hero, hero_icon}, ...]."""
+    owner_canonical = {norm_hero(h): h for h in hero_notes if isinstance(hero_notes.get(h), dict)}
+    out: dict[str, list[dict[str, str]]] = {}
+    for owner_key, pref_names in preferred_map.items():
+        owner_name = owner_canonical.get(owner_key)
+        if not owner_name:
+            continue
+        entries: list[dict[str, str]] = []
+        for pref in pref_names:
+            pref_key = norm_hero(pref)
+            canonical = canonical_hero_map.get(pref_key, pref.strip())
+            entries.append(
+                {
+                    "hero": canonical,
+                    "hero_icon": hero_icon_map.get(pref_key, ""),
+                }
+            )
+        out[owner_name] = entries
+    data["preferred_counter_heroes"] = out
+    return len(out)
+
+
 def build_counter_map(csv_path: Path) -> dict[tuple[str, str], str]:
     """(norm_hero, norm_ability) -> last counter string in file order (may be empty)."""
     last: dict[tuple[str, str], str] = {}
@@ -313,8 +399,10 @@ def main() -> None:
         sys.exit(f"JSON not found: {json_path}")
 
     hero_icon_map = build_hero_icon_map(abilities_path)
+    canonical_hero_map = build_canonical_hero_map(abilities_path)
     ability_meta = build_ability_meta_map(csv_path)
     counter_map = build_counter_map(csv_path)
+    preferred_map = build_preferred_heroes_map(csv_path)
     text = json_path.read_text(encoding="utf-8")
     data = json.loads(text)
 
@@ -329,6 +417,13 @@ def main() -> None:
         args.default_display_icon,
         missing_ability_log=missing_ability_lines,
         missing_hero_icon_log=missing_hero_icon_lines,
+    )
+    preferred_hero_count = apply_preferred_heroes(
+        data,
+        preferred_map,
+        hero_icon_map,
+        canonical_hero_map,
+        data.get("hero_notes") or {},
     )
 
     if args.verbose_missing and missing_ability_lines:
@@ -359,7 +454,8 @@ def main() -> None:
         f"blocks cleared (empty counter): {cleared} | "
         f"counter picks missing ability row lookup: {missing_meta} | "
         f"counter picks missing hero_icon: {missing_hero_icon} | "
-        f"missing-key warnings: {len(warnings)}"
+        f"missing-key warnings: {len(warnings)} | "
+        f"preferred counter heroes: {preferred_hero_count}"
     )
 
     if args.dry_run:
