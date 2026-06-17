@@ -7,7 +7,7 @@ const {
   serializeAbility,
   suggestHeroNames,
   suggestAbilityNames,
-  listHeroes, // Add this import
+  listHeroes,
 } = require("../_lib/data");
 
 function sendHeroNotFound(res, heroParam) {
@@ -18,8 +18,9 @@ function sendHeroNotFound(res, heroParam) {
 }
 
 module.exports = withCors((req, res) => {
-  // Parse URL path manually (not using req.query.slug)
-  const urlParts = req.url.split('/').filter(Boolean);
+  // Parse URL path manually, removing query string
+  const urlWithoutQuery = req.url.split('?')[0]; // ← CRITICAL FIX
+  const urlParts = urlWithoutQuery.split('/').filter(Boolean);
   const heroesIndex = urlParts.indexOf('heroes');
   const slugParam = urlParts.slice(heroesIndex + 1);
   
@@ -27,7 +28,7 @@ module.exports = withCors((req, res) => {
     .filter(Boolean)
     .map(safeDecode);
 
-  // If no hero is specified, return the full hero list (like index.js)
+  // If no hero is specified, return the full hero list
   if (parts.length === 0) {
     res.status(200).json({ heroes: listHeroes() });
     return;
