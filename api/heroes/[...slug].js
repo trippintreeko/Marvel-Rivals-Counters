@@ -17,7 +17,11 @@ function sendHeroNotFound(res, heroParam) {
 }
 
 module.exports = withCors((req, res) => {
-  const slugParam = req.query.slug;
+  // Parse URL path manually (not using req.query.slug)
+  const urlParts = req.url.split('/').filter(Boolean);
+  const heroesIndex = urlParts.indexOf('heroes');
+  const slugParam = urlParts.slice(heroesIndex + 1);
+  
   const parts = (Array.isArray(slugParam) ? slugParam : [slugParam])
     .filter(Boolean)
     .map(safeDecode);
