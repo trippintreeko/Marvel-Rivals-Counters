@@ -1,4 +1,9 @@
 {
+  "rewrites": [
+    { "source": "/api/heroes/:hero/counters", "destination": "/api/hero-counters?hero=:hero" },
+    { "source": "/api/heroes/:hero/abilities/:ability", "destination": "/api/ability-detail?hero=:hero&ability=:ability" },
+    { "source": "/api/heroes/:hero", "destination": "/api/hero-detail?hero=:hero" }
+  ],
   "functions": {
     "api/**/*.js": {
       "includeFiles": "data/**"
