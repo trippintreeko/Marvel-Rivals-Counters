@@ -7,6 +7,7 @@ const {
   serializeAbility,
   suggestHeroNames,
   suggestAbilityNames,
+  listHeroes, // Add this import
 } = require("../_lib/data");
 
 function sendHeroNotFound(res, heroParam) {
@@ -26,8 +27,9 @@ module.exports = withCors((req, res) => {
     .filter(Boolean)
     .map(safeDecode);
 
+  // If no hero is specified, return the full hero list (like index.js)
   if (parts.length === 0) {
-    res.status(400).json({ error: "Missing hero name in path." });
+    res.status(200).json({ heroes: listHeroes() });
     return;
   }
 
