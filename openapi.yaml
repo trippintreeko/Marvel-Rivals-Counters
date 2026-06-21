@@ -1,0 +1,321 @@
+openapi: 3.0.3
+info:
+  title: Marvel Rivals Counters API
+  description: >-
+    Hero ability counter data for Marvel Rivals — look up which abilities
+    counter a given ability, what an ability counters in return, and which
+    heroes are the strongest overall answer to a given hero.
+  version: "1.0.0"
+servers:
+  - url: https://marvelrivals.guide
+tags:
+  - name: Heroes
+    description: Browse heroes and their abilities.
+  - name: Counters
+    description: Counter relationships between heroes and abilities.
+paths:
+  /api/heroes:
+    get:
+      operationId: listHeroes
+      tags: [Heroes]
+      summary: List all heroes
+      description: Returns every hero on file along with how many abilities are recorded for them.
+      responses:
+        "200":
+          description: A list of heroes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeroListResponse"
+              example:
+                heroes:
+                  - hero: Hela
+                    ability_count: 9
+                  - hero: Deadpool
+                    ability_count: 49
+                  - hero: Storm
+                    ability_count: 6
+
+  /api/heroes/{hero}:
+    get:
+      operationId: getHero
+      tags: [Heroes]
+      summary: Get a hero's abilities and their counter data
+      description: >-
+        Returns every ability for the given hero, each with full counter
+        detail in both directions (what counters it, and what it counters).
+      parameters:
+        - $ref: "#/components/parameters/HeroPathParam"
+      responses:
+        "200":
+          description: The hero's full ability list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeroDetailResponse"
+        "404":
+          $ref: "#/components/responses/HeroNotFound"
+
+  /api/heroes/{hero}/counters:
+    get:
+      operationId: getHeroCounters
+      tags: [Counters]
+      summary: Get a hero-level counter ranking
+      description: >-
+        Returns every other hero who counters at least one of this hero's
+        abilities, ranked by how many abilities they counter, plus the union
+        of "ideal counter" heroes called out in the source data.
+      parameters:
+        - $ref: "#/components/parameters/HeroPathParam"
+      responses:
+        "200":
+          description: Ranked counters for the hero.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeroCountersResponse"
+              example:
+                hero: Hela
+                ranked_counters:
+                  - hero: Deadpool
+                    count: 18
+                  - hero: Groot
+                    count: 9
+                  - hero: Black Cat
+                    count: 8
+                preferred_counters:
+                  - Doctor Strange
+                  - Phoenix
+                  - The Punisher
+        "404":
+          $ref: "#/components/responses/HeroNotFound"
+
+  /api/heroes/{hero}/abilities/{ability}:
+    get:
+      operationId: getAbilityCounters
+      tags: [Counters]
+      summary: Get counter detail for a single ability
+      description: >-
+        Returns full counter detail for one ability: what counters it
+        (`countered_by`), what it counters in return (`counters`), and any
+        "ideal counter" heroes called out for it (`preferred_counters`).
+      parameters:
+        - $ref: "#/components/parameters/HeroPathParam"
+        - $ref: "#/components/parameters/AbilityPathParam"
+      responses:
+        "200":
+          description: Counter detail for the ability.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ability"
+        "404":
+          $ref: "#/components/responses/HeroOrAbilityNotFound"
+
+components:
+  parameters:
+    HeroPathParam:
+      name: hero
+      in: path
+      required: true
+      description: >-
+        Hero name, matched case-insensitively. URL-encode spaces and
+        punctuation (e.g. "Iron Fist" -> "Iron%20Fist").
+      schema:
+        type: string
+      example: Hela
+    AbilityPathParam:
+      name: ability
+      in: path
+      required: true
+      description: >-
+        Ability name, matched case-insensitively. URL-encode spaces and
+        punctuation (e.g. "Dragon's Defense" -> "Dragon%27s%20Defense").
+      schema:
+        type: string
+      example: Nightsword Thorn
+
+  responses:
+    HeroNotFound:
+      description: No hero matches the given name.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotFoundError"
+          example:
+            error: 'Hero "Wolverin" was not found.'
+            did_you_mean: ["Wolverine"]
+    HeroOrAbilityNotFound:
+      description: No hero, or no ability on that hero, matches the given name(s).
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotFoundError"
+          example:
+            error: 'Ability "Nightsword" was not found for Hela.'
+            did_you_mean: ["Nightsword Thorn"]
+
+  schemas:
+    HeroSummary:
+      type: object
+      properties:
+        hero:
+          type: string
+          example: Hela
+        ability_count:
+          type: integer
+          example: 9
+      required: [hero, ability_count]
+
+    HeroListResponse:
+      type: object
+      properties:
+        heroes:
+          type: array
+          items:
+            $ref: "#/components/schemas/HeroSummary"
+      required: [heroes]
+
+    CounteredByEntry:
+      type: object
+      description: >-
+        An ability (from another hero) that counters the ability this entry
+        is attached to. `ability_icon`/`ability_description` are omitted
+        when `resolved` is false (a small fraction of source rows have minor
+        typos that don't match a known ability, but the hero/ability text
+        is still returned).
+      properties:
+        hero:
+          type: string
+          example: Emma Frost
+        ability:
+          type: string
+          example: MIND'S AEGIS
+        ability_icon:
+          type: string
+          format: uri
+          nullable: true
+        ability_description:
+          type: string
+          nullable: true
+        resolved:
+          type: boolean
+          example: true
+      required: [hero, ability, resolved]
+
+    CounterTarget:
+      type: object
+      description: An ability (from another hero) that the parent ability counters.
+      properties:
+        hero:
+          type: string
+          example: Phoenix
+        ability:
+          type: string
+          example: Dark Ascent
+        ability_icon:
+          type: string
+          format: uri
+        ability_description:
+          type: string
+      required: [hero, ability]
+
+    Ability:
+      type: object
+      properties:
+        hero:
+          type: string
+          example: Hela
+        ability:
+          type: string
+          example: Nightsword Thorn
+        ability_icon:
+          type: string
+          format: uri
+        ability_description:
+          type: string
+          example: Throw Nightsword thorns
+        source_url:
+          type: string
+          format: uri
+        weaknesses:
+          type: string
+          description: Free-text weaknesses note, often empty.
+        preferred_counters:
+          type: array
+          items:
+            type: string
+          description: Hero names called out as the go-to picks against this ability.
+          example: ["Doctor Strange", "The Punisher", "Phoenix"]
+        countered_by:
+          type: array
+          items:
+            $ref: "#/components/schemas/CounteredByEntry"
+        counters:
+          type: array
+          items:
+            $ref: "#/components/schemas/CounterTarget"
+      required:
+        - hero
+        - ability
+        - ability_icon
+        - ability_description
+        - source_url
+        - weaknesses
+        - preferred_counters
+        - countered_by
+        - counters
+
+    HeroDetailResponse:
+      type: object
+      properties:
+        hero:
+          type: string
+          example: Hela
+        abilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ability"
+      required: [hero, abilities]
+
+    RankedCounter:
+      type: object
+      properties:
+        hero:
+          type: string
+          example: Deadpool
+        count:
+          type: integer
+          description: Number of this hero's abilities that the counter hero counters.
+          example: 18
+      required: [hero, count]
+
+    HeroCountersResponse:
+      type: object
+      properties:
+        hero:
+          type: string
+          example: Hela
+        ranked_counters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RankedCounter"
+        preferred_counters:
+          type: array
+          items:
+            type: string
+          example: ["Doctor Strange", "Phoenix", "The Punisher"]
+      required: [hero, ranked_counters, preferred_counters]
+
+    NotFoundError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Hero "Wolverin" was not found.'
+        did_you_mean:
+          type: array
+          items:
+            type: string
+          example: ["Wolverine"]
+      required: [error, did_you_mean]

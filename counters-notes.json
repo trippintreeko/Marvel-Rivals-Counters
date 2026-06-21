@@ -204,6 +204,14 @@
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_19.png",
             "ability_description": "HOLD Space to perform a charged leap that allows Monster Hulk to Knock a flying enemy to the ground",
             "display_icon": "ability"
+          },
+          {
+            "hero": "CLOAK&DAGGER",
+            "ability_name": "Dark Teleportation",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/08104768-56d7-4bda-84ae-bd4cd7245223.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241204/6fe1a0c6-8d0f-4674-872a-f7b54f0dd901.png",
+            "ability_description": "Enshroud nearby allies in the Darkforce Dimension, plunging them into the Phased state, making them untargetable and invisible to enemies and granting them a Movement Boost",
+            "display_icon": "ability"
           }
         ]
       },
@@ -544,6 +552,14 @@
             "ability_icon": "https://r.res.easebar.com/pic/20241120/6695cf9f-352c-4bf3-aab1-1824ecf39c95.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_4.png",
             "ability_description": "Unleash two Gatling guns and missiles to attack enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
             "display_icon": "ability"
           }
         ]
@@ -2646,6 +2662,14 @@
             "hero_icon": "https://r.res.easebar.com/pic/20241204/6fe1a0c6-8d0f-4674-872a-f7b54f0dd901.png",
             "ability_description": "Deploy a Veil of Darkforce to damage enemies upon touch, applying Blind to narrow their sight and Vulnerability to amplify damage received",
             "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
+            "display_icon": "ability"
           }
         ]
       },
@@ -3194,9 +3218,9 @@
           {
             "hero": "Hulk",
             "ability_name": "Heavy Blow (Monster Hulk)",
-            "ability_icon": "",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/cc774c86-d162-462f-95d0-1b11d36eed83.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_19.png",
-            "ability_description": "",
+            "ability_description": "Swing fists forward to punch and launch up enemies",
             "display_icon": "ability"
           },
           {
@@ -4422,14 +4446,6 @@
             "ability_icon": "https://r.res.easebar.com/pic/20250710/4a733ade-7bcc-4152-b3e7-3dc01bfcdb06.png",
             "hero_icon": "https://r.res.easebar.com/pic/20250711/e3658f05-e1f0-451d-902f-12ed100caa3e.png",
             "ability_description": "Soar into the sky with the Phoenix and crash down onto a selected area, dealing devastating damage to enemies while creating a shockwave that destroys enemy summons, shields, and any Bonus Health. Enemies hit are applied with 1 Spark",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Captain America",
-            "ability_name": "Living Legend?!?",
-            "ability_icon": "",
-            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_24.png",
-            "ability_description": "",
             "display_icon": "ability"
           },
           {
@@ -10850,14 +10866,6 @@
           },
           {
             "hero": "Scarlet Witch",
-            "ability_name": "Chaos Control?!?",
-            "ability_icon": "",
-            "hero_icon": "https://r.res.easebar.com/pic/20260615/9b56d391-4042-4447-932b-1e51ee3cdc78.png",
-            "ability_description": "",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Scarlet Witch",
             "ability_name": "Reality Erasure",
             "ability_icon": "https://r.res.easebar.com/pic/20241120/9fe279e3-1ca1-4202-b925-4eaddc649f14.png",
             "hero_icon": "https://r.res.easebar.com/pic/20260615/9b56d391-4042-4447-932b-1e51ee3cdc78.png",
@@ -11366,10 +11374,10 @@
           },
           {
             "hero": "The Punisher",
-            "ability_name": "Scourge Grenade?!?",
-            "ability_icon": "",
+            "ability_name": "Scourge Grenade",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/d9b61f83-54c3-42e7-9ac1-aadb46562237.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_4.png",
-            "ability_description": "",
+            "ability_description": "Throw a smoke grenade forward to obscure enemy vision and leap backward",
             "display_icon": "ability"
           }
         ]
@@ -18626,78 +18634,6 @@
             "display_icon": "ability"
           },
           {
-            "hero": "Deadpool",
-            "ability_name": "Skill Issue - UPGRADED",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/05a3bb0c-552b-48d5-9cd0-1f7e1e349923.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Dumbpoochu, I choose you! Taunt time! Their HP melts away, and if they whiff an ability, they get bonus pain AND Vulnerability. Double whammy! Objection? Overruled!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "SKILL ISSUE",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/32d6d205-925f-4e0b-ba3c-36c29e716545.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Let's play judge! Pick a dumb-dumb and slap a taunt. They miss an ability? Boom! Gavel drops, and I slap them with pain and snark",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "The Ban Hammer",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/2dd26fc5-baa0-418f-8130-fb8e96ff90b4.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "THE BAN HAMMER - UPGRADED",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/944e9d57-7cfe-47fe-97bf-dbda97f0552c.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Upgraded courtroom drama! Congrats, unlucky one! You're my pick; enjoy the taunt! I score bonus health and healing, and you take ongoing damage. If you miss an ability while court is in session, it's a double whammy. You get more pain, AND I get more extra HP! Thanks in advance!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Pwnage Pound",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/8480f602-9af4-45fd-b52d-1a12f22cb3b8.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Pwnage Pound - Upgraded?!?",
-            "ability_icon": "",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Groot",
-            "ability_name": "Ironwood Wall",
-            "ability_icon": "https://r.res.easebar.com/pic/20241120/6b671ac4-7312-4702-8062-5f3d93cdbcd4.png",
-            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_3.png",
-            "ability_description": "Target a location and grow an Ironwood Wall. When the wall is Awakened, damage dealt by Groot and nearby allies grants Groot Bonus Health. Groot gains Unstoppable while near Ironwood Walls",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Groot",
-            "ability_name": "Wild Wall",
-            "ability_icon": "https://r.res.easebar.com/pic/20250808/1c89933e-1908-4b71-80d1-9074582fa726.png",
-            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_3.png",
-            "ability_description": "Mantis enhances Groot's wooden walls and Loki's Rune Stones with life energy. Groot can additionally unleash a Flower Wall, which, when in Flora Colossus state, restores health to random nearby allies and grants them Damage Reduction. Loki's Rune Stones grant allies within Regeneration Domain a Damage Boost",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Groot",
-            "ability_name": "Thornlash Wall?!?",
-            "ability_icon": "",
-            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_3.png",
-            "ability_description": "",
-            "display_icon": "ability"
-          },
-          {
             "hero": "Captain America",
             "ability_name": "Living Legend",
             "ability_icon": "https://r.res.easebar.com/pic/20241120/97a1851f-7f3d-4297-a8ba-3d4650422a58.png",
@@ -19042,6 +18978,14 @@
             "ability_icon": "https://r.res.easebar.com/pic/20241120/8d6946a4-fdcd-4260-a36b-4d6367c22910.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_14.png",
             "ability_description": "Burrow underground for free movement. After a duration or by left-clicking, devour enemies above to deal damage based on the enemy's current health and generate equivalent Bonus Health. Devoured enemies suffer Reduced Healing",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
             "display_icon": "ability"
           }
         ]
@@ -22253,6 +22197,14 @@
             "ability_icon": "https://r.res.easebar.com/pic/20260320/5f574241-b3e7-46e1-83c5-658beb3885c9.png",
             "hero_icon": "https://r.res.easebar.com/pic/20260320/fee6b610-5bc8-4a73-92e0-5d56d983c260.png",
             "ability_description": "While Awakened, dash forward. Hit an enemy to slow them, enabling a second dash that knocks back enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Captain America",
+            "ability_name": "Living Legend",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/97a1851f-7f3d-4297-a8ba-3d4650422a58.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_24.png",
+            "ability_description": "Raise the shield to deflect incoming projectiles, sending them ricocheting in random directions",
             "display_icon": "ability"
           }
         ]
@@ -27075,14 +27027,6 @@
             "display_icon": "ability"
           },
           {
-            "hero": "Jeff the Land Shark",
-            "ability_name": "Hide and Seek?!?",
-            "ability_icon": "",
-            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_23.png",
-            "ability_description": "",
-            "display_icon": "ability"
-          },
-          {
             "hero": "Rocket Raccoon",
             "ability_name": "C.Y.A.",
             "ability_icon": "https://r.res.easebar.com/pic/20241120/8fa6c871-fb91-4115-bf94-a1ccf6f12d2c.png",
@@ -29208,10 +29152,10 @@
           },
           {
             "hero": "Deadpool",
-            "ability_name": "Pwnage Pound - Upgraded?!?",
-            "ability_icon": "",
+            "ability_name": "Pwnage Pound - Upgraded",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/f6c942a1-e1fd-4360-beda-fc4f62ceb0e0.png",
             "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "",
+            "ability_description": "Upgraded courtroom drama! Congrats, unlucky one! You're my pick; enjoy the taunt! I score bonus health and healing, and you take ongoing damage. If you miss an ability while court is in session, it's a double whammy. You get more pain, AND I get more extra HP! Thanks in advance!",
             "display_icon": "ability"
           },
           {
@@ -30367,14 +30311,6 @@
             "display_icon": "ability"
           },
           {
-            "hero": "Black Cat",
-            "ability_name": "Phantom Pursuit?!?",
-            "ability_icon": "",
-            "hero_icon": "https://r.res.easebar.com/pic/20260417/9aad3814-3985-4e14-ab1d-a2813bcf6850.png",
-            "ability_description": "",
-            "display_icon": "ability"
-          },
-          {
             "hero": "Daredevil",
             "ability_name": "OBJECTION!",
             "ability_icon": "https://r.res.easebar.com/pic/20251010/0d23a7fb-886a-4f9c-91ef-22eddd0352a9.png",
@@ -30432,10 +30368,10 @@
           },
           {
             "hero": "Jeff the Land Shark",
-            "ability_name": "It's Jeff!?!?",
-            "ability_icon": "",
+            "ability_name": "It's Jeff!",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/25d707ba-9f22-4b05-bb8e-d2eb22a8f1f5.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_23.png",
-            "ability_description": "",
+            "ability_description": "Deep dive into the scene and resurface to swallow both enemies and allies within range, activating Hide and Seek for a brief duration before ejecting the swallowed heroes forward",
             "display_icon": "ability"
           },
           {
@@ -31162,10 +31098,10 @@
           },
           {
             "hero": "The Punisher",
-            "ability_name": "Culling Turret?!?",
-            "ability_icon": "",
+            "ability_name": "Culling Turret",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/3806a440-7ae1-4a86-8b75-09c34be080fd.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_4.png",
-            "ability_description": "",
+            "ability_description": "Deploy a Culling Turret that grounds Punisher and blocks damage from the front while dealing massive damage",
             "display_icon": "ability"
           },
           {
@@ -31636,54 +31572,6 @@
             "ability_icon": "https://r.res.easebar.com/pic/20250108/af32c3d3-713a-4faf-90f7-1be2dcfa8cbd.png",
             "hero_icon": "https://r.res.easebar.com/pic/20250109/671bff2d-a31c-4b54-872d-a74669db3c80.png",
             "ability_description": "Generate a force shield in front of a selected ally or in front of you. The shield can block damage and provide Healing Over Time to nearby allies. Enemies that pass through the shield are slowed",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Skill Issue - UPGRADED",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/05a3bb0c-552b-48d5-9cd0-1f7e1e349923.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Dumbpoochu, I choose you! Taunt time! Their HP melts away, and if they whiff an ability, they get bonus pain AND Vulnerability. Double whammy! Objection? Overruled!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "SKILL ISSUE",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/32d6d205-925f-4e0b-ba3c-36c29e716545.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Let's play judge! Pick a dumb-dumb and slap a taunt. They miss an ability? Boom! Gavel drops, and I slap them with pain and snark",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "The Ban Hammer",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/2dd26fc5-baa0-418f-8130-fb8e96ff90b4.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "THE BAN HAMMER - UPGRADED",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/944e9d57-7cfe-47fe-97bf-dbda97f0552c.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Upgraded courtroom drama! Congrats, unlucky one! You're my pick; enjoy the taunt! I score bonus health and healing, and you take ongoing damage. If you miss an ability while court is in session, it's a double whammy. You get more pain, AND I get more extra HP! Thanks in advance!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Pwnage Pound",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/8480f602-9af4-45fd-b52d-1a12f22cb3b8.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Pwnage Pound - Upgraded?!?",
-            "ability_icon": "",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "",
             "display_icon": "ability"
           },
           {
@@ -35830,54 +35718,6 @@
             "ability_icon": "https://r.res.easebar.com/pic/20241120/6d9c5f2f-ad6d-4f5e-9a1d-bf039b2d6fdc.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_21.png",
             "ability_description": "Forge a soul bond with allies, granting Healing Over Time and distributing damage taken across the bond",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Skill Issue - UPGRADED",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/05a3bb0c-552b-48d5-9cd0-1f7e1e349923.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Dumbpoochu, I choose you! Taunt time! Their HP melts away, and if they whiff an ability, they get bonus pain AND Vulnerability. Double whammy! Objection? Overruled!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "SKILL ISSUE",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/32d6d205-925f-4e0b-ba3c-36c29e716545.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Let's play judge! Pick a dumb-dumb and slap a taunt. They miss an ability? Boom! Gavel drops, and I slap them with pain and snark",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "The Ban Hammer",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/2dd26fc5-baa0-418f-8130-fb8e96ff90b4.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "THE BAN HAMMER - UPGRADED",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/944e9d57-7cfe-47fe-97bf-dbda97f0552c.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "Upgraded courtroom drama! Congrats, unlucky one! You're my pick; enjoy the taunt! I score bonus health and healing, and you take ongoing damage. If you miss an ability while court is in session, it's a double whammy. You get more pain, AND I get more extra HP! Thanks in advance!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Pwnage Pound",
-            "ability_icon": "https://r.res.easebar.com/pic/20260116/8480f602-9af4-45fd-b52d-1a12f22cb3b8.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "Deadpool",
-            "ability_name": "Pwnage Pound - Upgraded?!?",
-            "ability_icon": "",
-            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
-            "ability_description": "",
             "display_icon": "ability"
           },
           {
@@ -40294,10 +40134,10 @@
           },
           {
             "hero": "Rocket Raccoon",
-            "ability_name": "C.Y.A.?!?",
-            "ability_icon": "",
+            "ability_name": "C.Y.A.",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/8fa6c871-fb91-4115-bf94-a1ccf6f12d2c.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_8.png",
-            "ability_description": "",
+            "ability_description": "Deploy a Cosmic Yarn Amplifier that grants allies a Damage Boost",
             "display_icon": "ability"
           },
           {
@@ -41091,19 +40931,323 @@
         "notes": "",
         "counter_abilities": [
           {
-            "hero": "The Thing",
-            "ability_name": "Unyielding Will",
-            "ability_icon": "https://r.res.easebar.com/pic/20250220/3898e125-f9bf-4d44-8b4d-9aeec6873187.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20250220/48b05dd6-4ddf-431a-b517-ff7634940528.png",
-            "ability_description": "Immune to launch-up, knock-back, and other displacement effects",
+            "hero": "Squirrel Girl",
+            "ability_name": "Unbeatable Squirrel Tsunami",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/f87d8f38-b7d1-4a62-9aaa-eb00423c38d2.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241201/4bb60bec-2314-4ffd-8698-574c00bc16cc.png",
+            "ability_description": "Summon a horde of squirrels to charge forward, dealing damage while bouncing against structures",
             "display_icon": "ability"
           },
           {
-            "hero": "Devil Dinosaur",
-            "ability_name": "Prehistoric Plating",
-            "ability_icon": "https://r.res.easebar.com/pic/20260514/c9b874b3-dde9-4453-9fb8-e49f5ecdec9d.png",
-            "hero_icon": "https://r.res.easebar.com/pic/20260515/84181e94-e504-48a8-94e2-6002678fb4dd.png",
-            "ability_description": "Take reduced damage from headshots. Immune to launch-up, knock-back, and other displacement effects. Enemies and allies generate less Ultimate Ability Energy when damaging or healing him",
+            "hero": "Black Widow",
+            "ability_name": "Red Room Rifle",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/67bd0973-ab49-4e6d-a04b-70f67cb2514b.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241204/f8f32a42-a17a-482c-8da0-cfe273b7da77.png",
+            "ability_description": "Attack with the Red Room Rifle",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Iron Fist",
+            "ability_name": "dragon's defense",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/5745baab-4f3f-47f0-9eb0-8b8ea67f81f2.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241201/b68a9250-009e-424e-9a76-413d6e7ac70d.png",
+            "ability_description": "Assume a defensive stance with a boost of Chi to block incoming attacks and gain Damage Reduction, then strike back with Yat Jee Chung Kuen",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Black Cat",
+            "ability_name": "Phantom Pursuit",
+            "ability_icon": "https://r.res.easebar.com/pic/20260416/0f50962e-bc08-42a0-85db-7138a350d05f.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260417/9aad3814-3985-4e14-ab1d-a2813bcf6850.png",
+            "ability_description": "Swiftly dash to an enemy, unleash a rapid flurry of claw attacks, and flash back to your starting position. Black Cat is Untargetableduring this move",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Daredevil",
+            "ability_name": "OBJECTION!",
+            "ability_icon": "https://r.res.easebar.com/pic/20251010/0d23a7fb-886a-4f9c-91ef-22eddd0352a9.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20251010/620b1cc1-a00d-4ba3-9867-a7093bc500c6.png",
+            "ability_description": "Whirl billy clubs in a tight guard to block frontal damage and reflect projectiles, becoming immune to all incoming harm during this stance and gain Fury",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Piercing Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/9107db4e-f275-49aa-87bf-96c697157a15.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a powerful arrow",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hela",
+            "ability_name": "Nightsword Thorn",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/ea4b3942-f0b3-43b4-a2fc-d5b43b6a8b35.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_5.png",
+            "ability_description": "Throw Nightsword thorns",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hela",
+            "ability_name": "Soul Drainer",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/558313fc-c58a-4507-a812-18e9acf92b97.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_5.png",
+            "ability_description": "Project an explosive Hel sphere to Stun nearby enemies.",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Peni Parker",
+            "ability_name": "Spider-Sweeper",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/bcccc074-f210-4239-a6e1-05ae478859a6.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_10.png",
+            "ability_description": "Enhance the SP//dr suit, launching up enemies in its path and deploying Arachno-Mines, Spider-Drones, and Cyber-Webs repeatedly",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Peni Parker",
+            "ability_name": "Bionic Spider-Nest",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/b0a9458d-2a87-483c-a165-c362bf34d179.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_10.png",
+            "ability_description": "Generate a Bionic Spider-Nest at a targeted area, periodically spawning Spider-Drones and creating Cyber-Webs. While in the Cyber-Web, Peni and allies gain Healing Over Time and a Movement Boost. Excess healing converts into Bonus Health. Spider-Drones inflict a Slow effect on hit, which can stack and refresh its effect period with multiple hits",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Peni Parker",
+            "ability_name": "Arachno-Mine",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/a0c17f1d-4984-4961-af7a-515078b751a4.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_10.png",
+            "ability_description": "Deploy Arachno-Mines that can be concealed within the confines of a Cyber-Web",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Peni Parker",
+            "ability_name": "Cyber-Web Snare",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/036e9648-779e-48a7-ab8b-0e60bc0c5bd1.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_10.png",
+            "ability_description": "Cast futuristic webbing that Immobilizes enemies or creates a Cyber-Web. While in the Cyber-Web, Peni and allies gain Healing Over Time and a Movement Boost. Excess healing converts into Bonus Health",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Black Widow",
+            "ability_name": "Electro-Plasma Explosion",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/2ab04f37-ede8-4c33-aee0-ef47e6d4c495.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241204/f8f32a42-a17a-482c-8da0-cfe273b7da77.png",
+            "ability_description": "Switch the Red Room Rifle to Destruction mode and unleash an electro-plasma blast, damaging enemies within range and leaving plasma on the ground to Slow nearby enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Elsa Bloodstone",
+            "ability_name": "DOUBLE-BARREL BLASTER",
+            "ability_icon": "https://r.res.easebar.com/pic/20260210/8a132243-9cec-4ed8-aa27-f374bc58d1a7.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260213/76cb7d5d-e120-496e-acb8-bbd4af0e3313.png",
+            "ability_description": "Fire your shotgun forward",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Elsa Bloodstone",
+            "ability_name": "Monster-Piercer",
+            "ability_icon": "https://r.res.easebar.com/pic/20260210/ff430438-d356-492c-bd28-2c68160d3a7a.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260213/76cb7d5d-e120-496e-acb8-bbd4af0e3313.png",
+            "ability_description": "Unleash your elephant gun forward. Bullets pierce enemies and deal high damage",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Blade",
+            "ability_name": "Thousand-Fold Slash",
+            "ability_icon": "https://r.res.easebar.com/pic/20250808/76a3bf21-fa7d-46b9-af37-db2c078fda6f.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250808/8c35438e-3359-4ad9-8d49-2e1c6a29d463.png",
+            "ability_description": "Charge power and swiftly draw the Sword of Dracula, executing a powerful Iaido strike as you dash forward, leaving behind a slashing zone where the sword automatically strikes enemies. Enemies hit suffer Reduced Healing",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Ultron",
+            "ability_name": "Rage of Ultron",
+            "ability_icon": "https://r.res.easebar.com/pic/20250529/4768132e-a560-432e-aa8b-b7fc01d321d9.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250529/3644db29-a6d9-4497-ba00-0b834aa66a63.png",
+            "ability_description": "Summon Ultron Drones to fire Encephalo-Rays, damaging enemies or healing allies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Human Torch",
+            "ability_name": "Supernova",
+            "ability_icon": "https://r.res.easebar.com/pic/20250220/49ec9ee0-bff0-41c5-944f-ff679966e4d4.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250220/697bbc3d-7e84-429a-90ee-c01edc8280ce.png",
+            "ability_description": "Explode with cosmic fire to deal damage to enemies within range. Upon skill activation, all Flame Fields will transform into Flame Tornadoes, dealing extra damage",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Venom",
+            "ability_name": "Feast of the Abyss",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/8d6946a4-fdcd-4260-a36b-4d6367c22910.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_14.png",
+            "ability_description": "Burrow underground for free movement. After a duration or by left-clicking, devour enemies above to deal damage based on the enemy's current health and generate equivalent Bonus Health. Devoured enemies suffer Reduced Healing",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "The Punisher",
+            "ability_name": "Adjudication",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/e755fe97-976b-43f7-90d8-e791ca310df1.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_4.png",
+            "ability_description": "Fire at enemies with Adjudication, his Automatic Rifle",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "The Punisher",
+            "ability_name": "Deliverance",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/b420c662-6d55-438d-932a-d2947005b6de.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_4.png",
+            "ability_description": "Fire at enemies with Deliverance, his Shotgun",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "WINTER SOLDIER",
+            "ability_name": "Roterstern",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/c394a786-61e2-4311-af38-ddbb77fb0c17.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_25.png",
+            "ability_description": "Fire explosive rounds with his blaster, Roterstern, damaging the target hit and enemies behind them.",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "STAR-LORD",
+            "ability_name": "Element Guns",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/947d9975-ec6d-4d17-b00b-ce4642fafebc.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_16.png",
+            "ability_description": "Shoot enemies with dual Element Guns",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "MOON KNIGHT",
+            "ability_name": "Crescent Dart",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/f4bab63c-dd7b-4ddc-b9f5-d0481acffaf3.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_26.png",
+            "ability_description": "Unleash Crescent Darts forward that can bounce between enemies and Ankhs, dealing damage to enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "MOON KNIGHT",
+            "ability_name": "Moon Blade",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/7864c28b-7c4b-4cc4-8e74-d600e7c586ee.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_26.png",
+            "ability_description": "Launch forward a Moon Blade that can bounce between enemies and Ankhs, dealing damage to enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Emma Frost",
+            "ability_name": "TELEPATHIC PULSE",
+            "ability_icon": "https://r.res.easebar.com/pic/20250409/af9f583d-3891-4929-afe5-f41651b71edb.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250408/f625b9b9-e844-4ccf-b98e-eaff91818258.png",
+            "ability_description": "Fire a psionic beam to deal damage; the longer the beam hits, the higher the damage",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Phoenix",
+            "ability_name": "Cosmic Flames",
+            "ability_icon": "https://r.res.easebar.com/pic/20250710/e458821f-fbdc-4505-8407-0eafe85f5a22.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250711/e3658f05-e1f0-451d-902f-12ed100caa3e.png",
+            "ability_description": "Launch a fiery projectile forward, applying 1 Spark to enemies hit. Critical hits apply 2 Sparks. At 3 Sparks, Phoenix triggers a fiery explosion that applies 1 Spark to enemies around and Healing Over Time to self. Sparks from explosions will not stack within a brief period",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Phoenix",
+            "ability_name": "Telekinesis Burst",
+            "ability_icon": "https://r.res.easebar.com/pic/20250710/986f26e7-7141-4dc9-90ac-acff1b8c380a.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250711/e3658f05-e1f0-451d-902f-12ed100caa3e.png",
+            "ability_description": "Mark a targeted area with psionic energy, followed by a series of fiery explosions. The first blast Stuns enemies, while the subsequent two explosions inflict Slow. Applies 1 Spark to enemies hit",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Blast Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/b54fcda9-4e31-4a7b-87c7-c7e8fd675434.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot three explosive arrows",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Namor",
+            "ability_name": "Aquatic Dominion",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/4bf22127-5c87-4163-82d7-ba90c1edae57.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_20.png",
+            "ability_description": "Summon a Monstro Spawn that can autonomously attack enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Scarlet Witch",
+            "ability_name": "Chaos Control",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/9df1d11b-6486-4f0e-83a8-b7e5dca461b6.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260615/9b56d391-4042-4447-932b-1e51ee3cdc78.png",
+            "ability_description": "Unleash Chaos Magic on enemies to deal damage and restore Chaos Energy",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Gambit",
+            "ability_name": "Bayou Bash",
+            "ability_icon": "https://r.res.easebar.com/pic/20251114/c8149d2a-578d-425b-baef-97750a81d644.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20251115/32d9260c-ff1b-45b3-b95e-9e6864aa75f4.png",
+            "ability_description": "Channel kinetic energy into the bo staff, then slam it into the ground after a sweeping strike, creating a shockwave that damages nearby enemies and heals allies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Gambit",
+            "ability_name": "Bidding Barrage",
+            "ability_icon": "https://r.res.easebar.com/pic/20251114/5b36fc07-c4e6-496a-9944-efb824adfe0f.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20251115/32d9260c-ff1b-45b3-b95e-9e6864aa75f4.png",
+            "ability_description": "While Breaking Spades deck is active, trigger Raise Empowerment to scattering cards in an arc in all directions. Explosions damage enemies and Launch them up",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "Skill Issue - UPGRADED",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/05a3bb0c-552b-48d5-9cd0-1f7e1e349923.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "Dumbpoochu, I choose you! Taunt time! Their HP melts away, and if they whiff an ability, they get bonus pain AND Vulnerability. Double whammy! Objection? Overruled!",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "SKILL ISSUE",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/32d6d205-925f-4e0b-ba3c-36c29e716545.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "Let's play judge! Pick a dumb-dumb and slap a taunt. They miss an ability? Boom! Gavel drops, and I slap them with pain and snark",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "The Ban Hammer",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/2dd26fc5-baa0-418f-8130-fb8e96ff90b4.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "THE BAN HAMMER - UPGRADED",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/944e9d57-7cfe-47fe-97bf-dbda97f0552c.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "Upgraded courtroom drama! Congrats, unlucky one! You're my pick; enjoy the taunt! I score bonus health and healing, and you take ongoing damage. If you miss an ability while court is in session, it's a double whammy. You get more pain, AND I get more extra HP! Thanks in advance!",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "Pwnage Pound",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/8480f602-9af4-45fd-b52d-1a12f22cb3b8.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "You! Yeah, you - the hyper one! Eyes off my friends. I sentence you to...whatever! Get ready to be taunted. I get bonus HP and healing, and if you whiff your abilities, you take damage, and I get even more HP!",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "Pwnage Pound - Upgraded",
+            "ability_icon": "https://r.res.easebar.com/pic/20260116/f6c942a1-e1fd-4360-beda-fc4f62ceb0e0.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "Upgraded courtroom drama! Congrats, unlucky one! You're my pick; enjoy the taunt! I score bonus health and healing, and you take ongoing damage. If you miss an ability while court is in session, it's a double whammy. You get more pain, AND I get more extra HP! Thanks in advance!",
             "display_icon": "ability"
           }
         ]
@@ -42606,6 +42750,14 @@
             "ability_icon": "https://r.res.easebar.com/pic/20241205/403af848-dda8-42f7-a2a0-b3d0959eeefe.png",
             "hero_icon": "https://r.res.easebar.com/pic/20241201/4bb60bec-2314-4ffd-8698-574c00bc16cc.png",
             "ability_description": "Launch an acorn to unleash Squirrel Guards, Imprisoning the first hit enemy",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hunter's Sight",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/15af78f7-6723-402d-916e-0e17ebf4b6df.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Capture Afterimages of enemies in his view. Damage dealt to an Afterimage is transferred to the corresponding enemy",
             "display_icon": "ability"
           }
         ]
@@ -49197,9 +49349,9 @@
           {
             "hero": "Hulk",
             "ability_name": "Heavy Blow (Monster Hulk)",
-            "ability_icon": "",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/cc774c86-d162-462f-95d0-1b11d36eed83.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_19.png",
-            "ability_description": "",
+            "ability_description": "Swing fists forward to punch and launch up enemies",
             "display_icon": "ability"
           },
           {
@@ -51423,14 +51575,6 @@
             "display_icon": "ability"
           },
           {
-            "hero": "Black Widow",
-            "ability_name": "Red Room Rifle?!?",
-            "ability_icon": "",
-            "hero_icon": "https://r.res.easebar.com/pic/20241204/f8f32a42-a17a-482c-8da0-cfe273b7da77.png",
-            "ability_description": "",
-            "display_icon": "ability"
-          },
-          {
             "hero": "Cloak&Dagger",
             "ability_name": "Darkforce Cloak",
             "ability_icon": "https://r.res.easebar.com/pic/20241205/94227f4c-02fd-4954-900c-f149b05b5cea.png",
@@ -51688,10 +51832,10 @@
           },
           {
             "hero": "Hawkeye",
-            "ability_name": "Hypersonic Arrow?!?",
-            "ability_icon": "",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
-            "ability_description": "",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
             "display_icon": "ability"
           },
           {
@@ -51835,6 +51979,14 @@
             "ability_icon": "https://r.res.easebar.com/pic/20251010/0aa73672-4753-4c5d-9f39-e501bd6dbbae.png",
             "hero_icon": "https://r.res.easebar.com/pic/20251010/620b1cc1-a00d-4ba3-9867-a7093bc500c6.png",
             "ability_description": "Embrace the Beast within. Enemies in Daredevil's line of sight take damage and suffer a ramping Blind effect. Continually gain Fury while active",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
             "display_icon": "ability"
           }
         ]
@@ -52645,14 +52797,6 @@
             "ability_icon": "https://r.res.easebar.com/pic/20241120/25d707ba-9f22-4b05-bb8e-d2eb22a8f1f5.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_23.png",
             "ability_description": "Deep dive into the scene and resurface to swallow both enemies and allies within range, activating Hide and Seek for a brief duration before ejecting the swallowed heroes forward",
-            "display_icon": "ability"
-          },
-          {
-            "hero": "The Punisher",
-            "ability_name": "Culling Turret?!?",
-            "ability_icon": "",
-            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_4.png",
-            "ability_description": "",
             "display_icon": "ability"
           },
           {
@@ -55603,6 +55747,14 @@
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_18.png",
             "ability_description": "Attach Idol Aura to an ally. Allies with Idol Aura also restore Health when Luna Snow is healing others",
             "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
+            "display_icon": "ability"
           }
         ]
       },
@@ -56143,6 +56295,14 @@
             "ability_icon": "https://r.res.easebar.com/pic/20241120/bedb33ea-a7d7-482f-a3ba-695afc84d7df.png",
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_21.png",
             "ability_description": "Awaken the karma of allies to revive them. Allies revived have lower health but enjoy a brief period of Invincibility",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Adam Warlock",
+            "ability_name": "Soul Bond",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/6d9c5f2f-ad6d-4f5e-9a1d-bf039b2d6fdc.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_21.png",
+            "ability_description": "Forge a soul bond with allies, granting Healing Over Time and distributing damage taken across the bond",
             "display_icon": "ability"
           },
           {
@@ -56821,6 +56981,14 @@
             "hero_icon": "https://r.res.easebar.com/pic/20260320/fee6b610-5bc8-4a73-92e0-5d56d983c260.png",
             "ability_description": "Consume one Spirit Tail to send a spectral fox forward. It heals and grants invulnerability to allies it passes through, damages and Charms enemies, forcing foes to move toward White Fox",
             "display_icon": "ability"
+          },
+          {
+            "hero": "Hawkeye",
+            "ability_name": "Hypersonic Arrow",
+            "ability_icon": "https://r.res.easebar.com/pic/20241124/96e35f6b-b42a-461a-9cd9-554ed05e3470.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_27.png",
+            "ability_description": "Shoot a Hypersonic Arrow, dealing two instances of damage to enemies in its path and inflicting them with Slow. This ability can Knock Down flying heroes",
+            "display_icon": "ability"
           }
         ]
       },
@@ -57013,6 +57181,12 @@
   },
   "counter_pairs": [],
   "preferred_counter_heroes": {
+    "CYCLOPS": [
+      {
+        "hero": "Work in Progress",
+        "hero_icon": ""
+      }
+    ],
     "DEVIL DINOSAUR": [
       {
         "hero": "SQUIRREL GIRL",
@@ -57487,6 +57661,10 @@
       {
         "hero": "PHOENIX",
         "hero_icon": "https://r.res.easebar.com/pic/20250711/e3658f05-e1f0-451d-902f-12ed100caa3e.png"
+      },
+      {
+        "hero": "WINTER SOLDIER",
+        "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_25.png"
       }
     ],
     "HULK": [
@@ -57543,6 +57721,10 @@
       {
         "hero": "Rogue",
         "hero_icon": "https://r.res.easebar.com/pic/20251212/f443e1cb-5605-4c4e-8d29-24078699d479.png"
+      },
+      {
+        "hero": "DOCTOR STRANGE",
+        "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_2.png"
       }
     ],
     "ADAM WARLOCK": [
