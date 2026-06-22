@@ -8183,6 +8183,214 @@
             "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_14.png",
             "ability_description": "Burrow underground for free movement. After a duration or by left-clicking, devour enemies above to deal damage based on the enemy's current health and generate equivalent Bonus Health. Devoured enemies suffer Reduced Healing",
             "display_icon": "ability"
+          },
+          {
+            "hero": "Mantis",
+            "ability_name": "Spore Slumber",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/297739c8-b9b1-4d0c-9578-0ba4d2cede4e.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_9.png",
+            "ability_description": "Throw a spore to Sedate the nearest enemy",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Luna Snow",
+            "ability_name": "Ice Arts",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/db8d7bd7-8433-4b9c-b79a-4893df673815.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_18.png",
+            "ability_description": "Fire ice shards for a short duration, damaging enemies or healing allies while restoring her own Health",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Angela",
+            "ability_name": "Assassin's Charge",
+            "ability_icon": "https://r.res.easebar.com/pic/20250911/dc923ca4-e2a4-4448-92e0-cae6d029e5f1.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250912/cf044a85-7bec-4bc1-8a32-6fcd06c25480.png",
+            "ability_description": "Enter an accelerated dash state, enemies struck head-on are carried through the air for a short distance",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Phoenix",
+            "ability_name": "Telekinesis Burst",
+            "ability_icon": "https://r.res.easebar.com/pic/20250710/986f26e7-7141-4dc9-90ac-acff1b8c380a.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250711/e3658f05-e1f0-451d-902f-12ed100caa3e.png",
+            "ability_description": "Mark a targeted area with psionic energy, followed by a series of fiery explosions. The first blast Stuns enemies, while the subsequent two explosions inflict Slow. Applies 1 Spark to enemies hit",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Emma Frost",
+            "ability_name": "Psionic Seduction",
+            "ability_icon": "https://r.res.easebar.com/pic/20250409/f186ffef-db20-4cce-ac54-f3963738fa64.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250408/f625b9b9-e844-4ccf-b98e-eaff91818258.png",
+            "ability_description": "Project a forward psychic assault that stuns foes and prevents them from unleashing their Ultimate Abilities; if the effect lingers, it gradually commandeers their mind, forcing them to move toward Emma Frost",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "The Thing",
+            "ability_name": "Clobberin' Time",
+            "ability_icon": "https://r.res.easebar.com/pic/20250220/27486433-769b-4aec-ba7b-d7da3cabd52f.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250220/48b05dd6-4ddf-431a-b517-ff7634940528.png",
+            "ability_description": "Use immense power to launch up all enemies in front of the Thing into the air",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Black Widow",
+            "ability_name": "Edge Dancer",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/63a7474c-3d1a-4db1-933a-c70c5a37e9ca.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241204/f8f32a42-a17a-482c-8da0-cfe273b7da77.png",
+            "ability_description": "Unleash a spinning kick to Knock enemies airborne. Landing the hit will allow her to zip to the target with a grappling hook for a second kick",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Wolverine",
+            "ability_name": "Last Stand",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/6900d5e2-7074-4c28-a424-4015ad9780a8.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241204/6decb3c7-c852-4d5e-811c-a932e3bfc4a8.png",
+            "ability_description": "Knock enemies ahead airborne and spiral through the air, sweeping up enemies along the path and delivering a devastating impact at the landing point",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Wolverine",
+            "ability_name": "Feral Leap",
+            "ability_icon": "https://r.res.easebar.com/pic/20241205/e88c7523-3fab-4cfb-a954-080c5824f0fe.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20241204/6decb3c7-c852-4d5e-811c-a932e3bfc4a8.png",
+            "ability_description": "Leap like an animal to snatch the first enemy upon impact and Smash them to the ground. Unleashing this ability will enhance his normal attack to Berserk Claw Strike for a brief period",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Scarlet Witch",
+            "ability_name": "Dark Seal",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/06d393d2-e8b7-443c-8e04-3696ecefac86.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260615/9b56d391-4042-4447-932b-1e51ee3cdc78.png",
+            "ability_description": "Land a hit on a target or the scene, or press E to generate a Force Field that periodically Stuns enemies within range",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Winter Soldier",
+            "ability_name": "Bionic Hook",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/4173fa58-8641-47f9-9ee5-b63472fe074e.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_25.png",
+            "ability_description": "Charge up and launch a hook with his bionic arm, reeling in the first target hit and enemies lurking behind",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Spider-man",
+            "ability_name": "Get Over Here!",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/d3b40d5d-cb78-4e6d-990c-0ec61404f8e0.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_13.png",
+            "ability_description": "Shoot webbing to reel in the hit enemy. If the enemy is tagged with a Spider-Tracer, Spider-Man will get pulled to them instead",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Spider-man",
+            "ability_name": "Spectacular Spin",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/df0e1190-adea-471c-aa47-186aaabe41dc.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_13.png",
+            "ability_description": "Launch Web-Clusters all around to damage and Stun enemies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hela",
+            "ability_name": "Soul Drainer",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/558313fc-c58a-4507-a812-18e9acf92b97.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_5.png",
+            "ability_description": "Project an explosive Hel sphere to Stun nearby enemies.",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hulk",
+            "ability_name": "World Breaker",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/e2c65ff1-2180-4f19-b7b0-1cf08ad1b1c4.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_19.png",
+            "ability_description": "Grab and smash the enemy in front",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hulk",
+            "ability_name": "Radioactive Lockdown",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/5965d229-691b-42be-859e-bc83191b3d1d.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_19.png",
+            "ability_description": "Emit gamma energy to irradiate enemies and render them immobilize and immune to all ability effects. Using Heavy Blow or Gamma Burst will prematurely remove this status",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Hulk",
+            "ability_name": "Incredible Leap",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/b74339de-5816-4639-ba7f-d32d39f620cd.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_19.png",
+            "ability_description": "HOLD Space to perform a charged leap that allows Monster Hulk to Knock a flying enemy to the ground",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Jeff the Land Shark",
+            "ability_name": "It's Jeff!",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/25d707ba-9f22-4b05-bb8e-d2eb22a8f1f5.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_23.png",
+            "ability_description": "Deep dive into the scene and resurface to swallow both enemies and allies within range, activating Hide and Seek for a brief duration before ejecting the swallowed heroes forward",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Peni Parker",
+            "ability_name": "Cyber-Web Snare",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/036e9648-779e-48a7-ab8b-0e60bc0c5bd1.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_10.png",
+            "ability_description": "Cast futuristic webbing that Immobilizes enemies or creates a Cyber-Web. While in the Cyber-Web, Peni and allies gain Healing Over Time and a Movement Boost. Excess healing converts into Bonus Health",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Thor",
+            "ability_name": "God of Thunder",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/68c2df37-4e4b-48be-af36-22a545b1cb8d.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_22.png",
+            "ability_description": "Soar upwards and smite the ground after charging for a duration, inflicting damage on enemies within range",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Doctor Strange",
+            "ability_name": "Eye of Agamotto",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/0fd358bd-cf3c-4029-9455-3693bc12cbb5.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_2.png",
+            "ability_description": "Separate nearby enemies' Souls from their bodies. Damage dealt to these Souls is transferred to their physical bodies",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Elsa Bloodstone",
+            "ability_name": "Apex Predator",
+            "ability_icon": "https://r.res.easebar.com/pic/20260210/baae636a-b026-4d93-b08f-3185544fbeb3.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260213/76cb7d5d-e120-496e-acb8-bbd4af0e3313.png",
+            "ability_description": "Summon the Glartrox to charge forward. The Glartrox can be recalled to charge back toward Elsa. When colliding with terrain or upon return, it bites fiercely, dealing heavy damage",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Devil Dinosaur",
+            "ability_name": "Savage Predation",
+            "ability_icon": "https://r.res.easebar.com/pic/20260514/d5b729a9-bd0a-4e51-9bd4-a4bf2b40b5ef.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260515/84181e94-e504-48a8-94e2-6002678fb4dd.png",
+            "ability_description": "Dash and pounce on your prey with a vicious bite, applying a Bleed. If the target is already Bleeding, clamp down before hurling them away",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "White Fox – Spectral Surge",
+            "ability_name": "",
+            "ability_icon": "",
+            "hero_icon": "",
+            "ability_description": "",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Rogue – Ability Absorption",
+            "ability_name": "",
+            "ability_icon": "",
+            "hero_icon": "",
+            "ability_description": "",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Emma Frost – Carbon Crush",
+            "ability_name": "",
+            "ability_icon": "",
+            "hero_icon": "",
+            "ability_description": "",
+            "display_icon": "ability"
           }
         ]
       },
@@ -58351,6 +58559,24 @@
         "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_5.png"
       }
     ],
+    "WINTER SOLDIER": [
+      {
+        "hero": "GROOT",
+        "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_3.png"
+      },
+      {
+        "hero": "BLACK CAT",
+        "hero_icon": "https://r.res.easebar.com/pic/20260417/9aad3814-3985-4e14-ab1d-a2813bcf6850.png"
+      },
+      {
+        "hero": "Gambit",
+        "hero_icon": "https://r.res.easebar.com/pic/20251115/32d9260c-ff1b-45b3-b95e-9e6864aa75f4.png"
+      },
+      {
+        "hero": "Emma Frost",
+        "hero_icon": "https://r.res.easebar.com/pic/20250408/f625b9b9-e844-4ccf-b98e-eaff91818258.png"
+      }
+    ],
     "MAGIK": [
       {
         "hero": "THE THING",
@@ -58363,6 +58589,10 @@
       {
         "hero": "SCARLET WITCH",
         "hero_icon": "https://r.res.easebar.com/pic/20260615/9b56d391-4042-4447-932b-1e51ee3cdc78.png"
+      },
+      {
+        "hero": "WINTER SOLDIER",
+        "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_25.png"
       }
     ],
     "SPIDER-MAN": [
