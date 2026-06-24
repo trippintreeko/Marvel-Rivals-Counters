@@ -40,7 +40,18 @@ GET /api/heroes/Hela/counters
     { "hero": "Deadpool", "count": 18 },
     { "hero": "Groot", "count": 9 }
   ],
-  "preferred_counters": ["Doctor Strange", "Phoenix", "The Punisher"]
+  "preferred_counters": ["Doctor Strange", "Phoenix", "The Punisher"],
+  "synergies": ["Luna Snow", "Mantis"],
+  "role_counters": {
+    "strategist": ["Adam Warlock"],
+    "duelist": ["Wolverine"],
+    "vanguard": ["Magneto"]
+  },
+  "playstyles": {
+    "dive": ["Black Cat"],
+    "poke": ["Hawkeye"],
+    "brawl": ["Hulk"]
+  }
 }
 ```
 
@@ -60,6 +71,17 @@ GET /api/heroes/Hela/abilities/Nightsword%20Thorn
   "source_url": "https://...",
   "weaknesses": "",
   "preferred_counters": ["Doctor Strange", "The Punisher", "Phoenix"],
+  "synergies": ["Luna Snow", "Mantis"],
+  "role_counters": {
+    "strategist": "WHITE FOX",
+    "duelist": "BLACK CAT",
+    "vanguard": "DEADPOOL"
+  },
+  "playstyles": {
+    "dive": "BLACK CAT",
+    "poke": "Cyclops",
+    "brawl": "Ultron"
+  },
   "countered_by": [
     { "hero": "Emma Frost", "ability": "MIND'S AEGIS", "ability_icon": "...", "ability_description": "...", "resolved": true }
   ],
@@ -92,6 +114,16 @@ relationship:
   complete as the forward data is.
 - **`preferred_counters`** — hero names (no ability detail) called out in
   the source CSV as the go-to picks against this ability.
+- **`synergies`** — hero names called out as strong synergies with this
+  ability (`Prefered synergy` column).
+- **`role_counters`** — one hero per role (`strategist`, `duelist`,
+  `vanguard`) called out as a strong answer against this ability.
+- **`playstyles`** — one hero per playstyle (`dive`, `poke`, `brawl`)
+  called out as a strong answer against this ability.
+
+The hero-level `GET /api/heroes/:hero/counters` endpoint returns the same
+`synergies`, `role_counters`, and `playstyles` fields aggregated across all
+of that hero's abilities (unique hero names per bucket).
 
 ## Data caveats
 

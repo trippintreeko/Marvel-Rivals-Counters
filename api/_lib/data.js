@@ -93,6 +93,58 @@ function splitList(raw) {
     .filter(Boolean);
 }
 
+function pickRoleCounters(row) {
+  const out = {};
+  const pairs = [
+    ["strategist", row.Strategist],
+    ["duelist", row.Duelist],
+    ["vanguard", row.Vanguard],
+  ];
+  for (const [key, raw] of pairs) {
+    const name = (raw || "").trim();
+    if (name) out[key] = name;
+  }
+  return out;
+}
+
+function pickPlaystyles(row) {
+  const out = {};
+  const pairs = [
+    ["dive", row.Dive],
+    ["poke", row.Poke],
+    ["brawl", row.Brawl],
+  ];
+  for (const [key, raw] of pairs) {
+    const name = (raw || "").trim();
+    if (name) out[key] = name;
+  }
+  return out;
+}
+
+function canonicalizeHeroName(name, heroes) {
+  const trimmed = (name || "").trim();
+  if (!trimmed) return "";
+  const match = heroes.get(normalize(trimmed));
+  return match ? match.name : trimmed;
+}
+
+function mergeHeroList(existingList, newNames) {
+  const seen = new Set(existingList.map((name) => normalize(name)));
+  for (const name of newNames) {
+    const key = normalize(name);
+    if (!seen.has(key)) {
+      seen.add(key);
+      existingList.push(name);
+    }
+  }
+}
+
+function mergeNamedMap(existingMap, newMap) {
+  for (const [key, value] of Object.entries(newMap)) {
+    if (!existingMap[key] && value) existingMap[key] = value;
+  }
+}
+
 /**
  * Counter-column entries look like "Hero - Ability Name[ - Upgraded]".
  * Hero names in this dataset never contain " - ", so splitting on the
@@ -139,7 +191,10 @@ function loadDataset() {
       .map(splitHeroAbility)
       .filter(Boolean);
     const newPreferred = splitList(row["Counters (prefered Heros)"]);
+    const newSynergies = splitList(row["Prefered synergy "]);
     const newWeakness = (row.Weaknesses || "").trim();
+    const newRoleCounters = pickRoleCounters(row);
+    const newPlaystyles = pickPlaystyles(row);
 
     if (bucket.has(aKey)) {
       const existing = bucket.get(aKey);
@@ -155,15 +210,10 @@ function loadDataset() {
         }
       }
 
-      const seenPreferred = new Set(
-        existing.preferred_counters.map((p) => normalize(p))
-      );
-      for (const name of newPreferred) {
-        if (!seenPreferred.has(normalize(name))) {
-          seenPreferred.add(normalize(name));
-          existing.preferred_counters.push(name);
-        }
-      }
+      mergeHeroList(existing.preferred_counters, newPreferred);
+      mergeHeroList(existing.synergies, newSynergies);
+      mergeNamedMap(existing.role_counters, newRoleCounters);
+      mergeNamedMap(existing.playstyles, newPlaystyles);
 
       if (!existing.weaknesses && newWeakness) existing.weaknesses = newWeakness;
       if (!existing.ability_icon && row.ability_icon) {
@@ -186,6 +236,9 @@ function loadDataset() {
       source_url: row.source_url || "",
       weaknesses: newWeakness,
       preferred_counters: newPreferred,
+      synergies: newSynergies,
+      role_counters: newRoleCounters,
+      playstyles: newPlaystyles,
       // Abilities (from other heroes) that counter THIS ability.
       countered_by: newCounteredBy,
       // Abilities (from other heroes) that THIS ability counters.
@@ -201,10 +254,24 @@ function loadDataset() {
   // hero casing, attach icon/description metadata, and build the reverse
   // ("counters") index from the forward ("countered_by") data.
   for (const record of abilityIndex.values()) {
-    record.preferred_counters = record.preferred_counters.map((name) => {
-      const match = heroes.get(normalize(name));
-      return match ? match.name : name;
-    });
+    record.preferred_counters = record.preferred_counters.map((name) =>
+      canonicalizeHeroName(name, heroes)
+    );
+    record.synergies = record.synergies.map((name) =>
+      canonicalizeHeroName(name, heroes)
+    );
+    record.role_counters = Object.fromEntries(
+      Object.entries(record.role_counters).map(([role, name]) => [
+        role,
+        canonicalizeHeroName(name, heroes),
+      ])
+    );
+    record.playstyles = Object.fromEntries(
+      Object.entries(record.playstyles).map(([style, name]) => [
+        style,
+        canonicalizeHeroName(name, heroes),
+      ])
+    );
 
     record.countered_by = record.countered_by.map((entry) => {
       const sourceRecord = abilityIndex.get(
@@ -265,6 +332,9 @@ function serializeAbility(record) {
     source_url: record.source_url,
     weaknesses: record.weaknesses,
     preferred_counters: record.preferred_counters,
+    synergies: record.synergies,
+    role_counters: record.role_counters,
+    playstyles: record.playstyles,
     countered_by: record.countered_by,
     counters: record.counters,
   };
@@ -288,6 +358,17 @@ function rankHeroCounters(heroNameRaw) {
 
   const counts = new Map(); // normalized hero -> { hero, count }
   const preferred = new Map(); // normalized hero -> display name
+  const synergies = new Map();
+  const roleCounters = {
+    strategist: new Map(),
+    duelist: new Map(),
+    vanguard: new Map(),
+  };
+  const playstyles = {
+    dive: new Map(),
+    poke: new Map(),
+    brawl: new Map(),
+  };
 
   for (const ability of hero.abilities.values()) {
     for (const entry of ability.countered_by) {
@@ -298,16 +379,41 @@ function rankHeroCounters(heroNameRaw) {
     for (const name of ability.preferred_counters) {
       preferred.set(normalize(name), name);
     }
+    for (const name of ability.synergies) {
+      synergies.set(normalize(name), name);
+    }
+    for (const [role, name] of Object.entries(ability.role_counters || {})) {
+      if (roleCounters[role] && name) {
+        roleCounters[role].set(normalize(name), name);
+      }
+    }
+    for (const [style, name] of Object.entries(ability.playstyles || {})) {
+      if (playstyles[style] && name) {
+        playstyles[style].set(normalize(name), name);
+      }
+    }
   }
+
+  const sortNames = (map) =>
+    Array.from(map.values()).sort((a, b) => a.localeCompare(b));
 
   return {
     hero: hero.name,
     ranked_counters: Array.from(counts.values()).sort(
       (a, b) => b.count - a.count || a.hero.localeCompare(b.hero)
     ),
-    preferred_counters: Array.from(preferred.values()).sort((a, b) =>
-      a.localeCompare(b)
-    ),
+    preferred_counters: sortNames(preferred),
+    synergies: sortNames(synergies),
+    role_counters: {
+      strategist: sortNames(roleCounters.strategist),
+      duelist: sortNames(roleCounters.duelist),
+      vanguard: sortNames(roleCounters.vanguard),
+    },
+    playstyles: {
+      dive: sortNames(playstyles.dive),
+      poke: sortNames(playstyles.poke),
+      brawl: sortNames(playstyles.brawl),
+    },
   };
 }
 

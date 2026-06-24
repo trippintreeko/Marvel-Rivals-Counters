@@ -67,12 +67,17 @@ _COUNTER_DELIMITER = re.compile(r"\s*[–—]\s*")
 PREFERRED_HEROES_COL = "Counters (prefered Heros)"
 PREFERRED_SYNERGY_COL = "Prefered synergy "
 ROLE_STRATEGIST_COL = "Strategist"
-ROLE_DUELIST_COL = "Duelest"
-ROLE_VANGUARD_COL = "Vangaurd"
+ROLE_DUELIST_COL = "Duelist"
+ROLE_VANGUARD_COL = "Vanguard"
+PLAYSTYLE_DIVE_COL = "Dive"
+PLAYSTYLE_POKE_COL = "Poke"
+PLAYSTYLE_BRAWL_COL = "Brawl"
 
 HERO_LIST_COLUMNS = (PREFERRED_HEROES_COL, PREFERRED_SYNERGY_COL)
 ROLE_COLUMNS = (ROLE_STRATEGIST_COL, ROLE_DUELIST_COL, ROLE_VANGUARD_COL)
-SPREADSHEET_HERO_COLUMNS = HERO_LIST_COLUMNS + ROLE_COLUMNS
+PLAYSTYLE_COLUMNS = (PLAYSTYLE_DIVE_COL, PLAYSTYLE_POKE_COL, PLAYSTYLE_BRAWL_COL)
+SINGLE_HERO_COLUMNS = ROLE_COLUMNS + PLAYSTYLE_COLUMNS
+SPREADSHEET_HERO_COLUMNS = HERO_LIST_COLUMNS + SINGLE_HERO_COLUMNS
 
 # Common shorthand typos seen in the sheet; used for suggestions only.
 HERO_NAME_ALIASES: dict[str, str] = {
@@ -227,7 +232,7 @@ def validate_spreadsheet_columns(
     csv_path: Path,
     canonical_hero_map: dict[str, str],
 ) -> list[CsvValidationIssue]:
-    """Validate preferred/synergy/role columns for typos and comma issues."""
+    """Validate preferred/synergy/role/playstyle columns for typos and comma issues."""
     issues: list[CsvValidationIssue] = []
     with csv_path.open(encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
@@ -277,7 +282,7 @@ def validate_spreadsheet_columns(
                             )
                         )
 
-            for col in ROLE_COLUMNS:
+            for col in SINGLE_HERO_COLUMNS:
                 cell = (row.get(col) or "").strip()
                 if not cell:
                     continue
@@ -287,7 +292,7 @@ def validate_spreadsheet_columns(
                             row=row_num,
                             column=col,
                             issue="multiple_values",
-                            detail=f"role column should contain one hero, got {cell!r}",
+                            detail=f"column should contain one hero, got {cell!r}",
                             owner_hero=owner_hero,
                             owner_ability=owner_ability,
                         )

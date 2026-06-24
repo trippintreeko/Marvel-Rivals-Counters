@@ -87,6 +87,23 @@ paths:
                   - Doctor Strange
                   - Phoenix
                   - The Punisher
+                synergies:
+                  - Luna Snow
+                  - Mantis
+                role_counters:
+                  strategist:
+                    - Adam Warlock
+                  duelist:
+                    - Wolverine
+                  vanguard:
+                    - Magneto
+                playstyles:
+                  dive:
+                    - Black Cat
+                  poke:
+                    - Hawkeye
+                  brawl:
+                    - Hulk
         "404":
           $ref: "#/components/responses/HeroNotFound"
 
@@ -98,7 +115,9 @@ paths:
       description: >-
         Returns full counter detail for one ability: what counters it
         (`countered_by`), what it counters in return (`counters`), and any
-        "ideal counter" heroes called out for it (`preferred_counters`).
+        "ideal counter" heroes called out for it (`preferred_counters`), plus
+        synergy picks, role-based counter heroes, and playstyle-based counter
+        heroes from the source spreadsheet.
       parameters:
         - $ref: "#/components/parameters/HeroPathParam"
         - $ref: "#/components/parameters/AbilityPathParam"
@@ -220,6 +239,84 @@ components:
           type: string
       required: [hero, ability]
 
+    RoleCounters:
+      type: object
+      description: >-
+        Heroes called out as strong answers against this ability (or hero,
+        when aggregated) for each Marvel Rivals role.
+      properties:
+        strategist:
+          type: array
+          items:
+            type: string
+          example: ["Adam Warlock"]
+        duelist:
+          type: array
+          items:
+            type: string
+          example: ["Wolverine"]
+        vanguard:
+          type: array
+          items:
+            type: string
+          example: ["Magneto"]
+      required: [strategist, duelist, vanguard]
+
+    RoleCounterMap:
+      type: object
+      description: >-
+        A single hero pick per role for one ability row in the source data.
+      properties:
+        strategist:
+          type: string
+          example: WHITE FOX
+        duelist:
+          type: string
+          example: BLACK CAT
+        vanguard:
+          type: string
+          example: DEADPOOL
+      additionalProperties: false
+
+    PlaystyleCounters:
+      type: object
+      description: >-
+        Heroes called out as strong answers against this ability (or hero,
+        when aggregated) for each playstyle label.
+      properties:
+        dive:
+          type: array
+          items:
+            type: string
+          example: ["Black Cat"]
+        poke:
+          type: array
+          items:
+            type: string
+          example: ["Hawkeye"]
+        brawl:
+          type: array
+          items:
+            type: string
+          example: ["Hulk"]
+      required: [dive, poke, brawl]
+
+    PlaystyleCounterMap:
+      type: object
+      description: >-
+        A single hero pick per playstyle for one ability row in the source data.
+      properties:
+        dive:
+          type: string
+          example: BLACK CAT
+        poke:
+          type: string
+          example: Cyclops
+        brawl:
+          type: string
+          example: Ultron
+      additionalProperties: false
+
     Ability:
       type: object
       properties:
@@ -247,6 +344,16 @@ components:
             type: string
           description: Hero names called out as the go-to picks against this ability.
           example: ["Doctor Strange", "The Punisher", "Phoenix"]
+        synergies:
+          type: array
+          items:
+            type: string
+          description: Hero names called out as strong synergies with this ability.
+          example: ["Luna Snow", "Mantis", "Rocket Raccoon"]
+        role_counters:
+          $ref: "#/components/schemas/RoleCounterMap"
+        playstyles:
+          $ref: "#/components/schemas/PlaystyleCounterMap"
         countered_by:
           type: array
           items:
@@ -263,6 +370,9 @@ components:
         - source_url
         - weaknesses
         - preferred_counters
+        - synergies
+        - role_counters
+        - playstyles
         - countered_by
         - counters
 
@@ -305,7 +415,17 @@ components:
           items:
             type: string
           example: ["Doctor Strange", "Phoenix", "The Punisher"]
-      required: [hero, ranked_counters, preferred_counters]
+        synergies:
+          type: array
+          items:
+            type: string
+          example: ["Luna Snow", "Mantis"]
+        role_counters:
+          $ref: "#/components/schemas/RoleCounters"
+        playstyles:
+          $ref: "#/components/schemas/PlaystyleCounters"
+      required:
+        [hero, ranked_counters, preferred_counters, synergies, role_counters, playstyles]
 
     NotFoundError:
       type: object

@@ -10696,6 +10696,70 @@
             "hero_icon": "https://r.res.easebar.com/pic/20260515/84181e94-e504-48a8-94e2-6002678fb4dd.png",
             "ability_description": "Dash and pounce on your prey with a vicious bite, applying a Bleed. If the target is already Bleeding, clamp down before hurling them away",
             "display_icon": "ability"
+          },
+          {
+            "hero": "Emma Frost",
+            "ability_name": "Mind's Aegis",
+            "ability_icon": "https://r.res.easebar.com/pic/20250409/32c4bdf3-c6de-4131-b202-db95bbd1fc07.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250408/f625b9b9-e844-4ccf-b98e-eaff91818258.png",
+            "ability_description": "Create a levitating barrier at the designated location",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Captain America",
+            "ability_name": "Living Legend",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/97a1851f-7f3d-4297-a8ba-3d4650422a58.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_24.png",
+            "ability_description": "Raise the shield to deflect incoming projectiles, sending them ricocheting in random directions",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Magneto",
+            "ability_name": "Metallic Curtain",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/e834f5cc-ab25-4c64-8c84-4fc1e19f4f7c.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_11.png",
+            "ability_description": "Change the magnetic field around to form a metallic curtain, blocking all incoming projectiles",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Doctor Strange",
+            "ability_name": "Shield of the Seraphim",
+            "ability_icon": "https://r.res.easebar.com/pic/20241120/9a8c0b57-316f-42da-bcca-9923be81d771.png",
+            "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_2.png",
+            "ability_description": "Create a protective barrier against damage",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Devil Dinosaur",
+            "ability_name": "Buddy Barrier",
+            "ability_icon": "https://r.res.easebar.com/pic/20260514/5262ea98-9407-49e5-92c3-4630ededb30d.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260515/84181e94-e504-48a8-94e2-6002678fb4dd.png",
+            "ability_description": "Activate the heart-shaped generator to expand a spherical shield that blocks incoming damage. Enemies caught within are Slowed",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Deadpool",
+            "ability_name": "Magical Unicorn Shield!",
+            "ability_icon": "https://r.res.easebar.com/pic/20260114/fef38c04-fee0-40a5-ad7f-79577aa45743.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20260116/2d6d1d2b-281f-4efd-b252-d792a11fce98.png",
+            "ability_description": "Plushie power! It stops every single attack those chumps throw, giving my team a safety bubble. It's cute AND bulletproof",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Invisible Woman",
+            "ability_name": "Guardian Shield",
+            "ability_icon": "https://r.res.easebar.com/pic/20250108/af32c3d3-713a-4faf-90f7-1be2dcfa8cbd.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250109/671bff2d-a31c-4b54-872d-a74669db3c80.png",
+            "ability_description": "Generate a force shield in front of a selected ally or in front of you. The shield can block damage and provide Healing Over Time to nearby allies. Enemies that pass through the shield are slowed",
+            "display_icon": "ability"
+          },
+          {
+            "hero": "Angela",
+            "ability_name": "Shielded Stance",
+            "ability_icon": "https://r.res.easebar.com/pic/20250911/89c12b85-cd4c-4d3e-a6b8-b628c6de8eba.png",
+            "hero_icon": "https://r.res.easebar.com/pic/20250912/cf044a85-7bec-4bc1-8a32-6fcd06c25480.png",
+            "ability_description": "Transform Ichors into a shield, gaining Attack Charge when absorbing damage",
+            "display_icon": "ability"
           }
         ]
       },
@@ -59095,6 +59159,10 @@
       {
         "hero": "CAPTAIN AMERICA",
         "hero_icon": "https://www.marvelrivals.com/pc/gw/5da825b19a6a/heros/head_24.png"
+      },
+      {
+        "hero": "Daredevil",
+        "hero_icon": "https://r.res.easebar.com/pic/20251010/620b1cc1-a00d-4ba3-9867-a7093bc500c6.png"
       }
     ],
     "LUNA SNOW": [
