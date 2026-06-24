@@ -39,7 +39,8 @@ Usage:
   python counters/import_counter_abilities_from_csv.py --csv path/to.csv --json path/to.json
 
 --dry-run: parse and print the summary line; does not write counters-notes.json.
---verbose-missing: print each missing ability-row lookup and missing hero portrait to stderr.
+--verbose-missing: log missing lookups, bad counter delimiters, and spreadsheet
+  issues in the new columns (preferred heroes, synergy, role picks).
 """
 from __future__ import annotations
 
@@ -48,6 +49,7 @@ import csv
 import json
 import re
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -60,6 +62,250 @@ def default_paths(project_root: Path) -> tuple[Path, Path, Path]:
 
 
 _DISPLAY_SUFFIX = re.compile(r"\s*@(hero|ability)\s*$", re.IGNORECASE)
+_COUNTER_DELIMITER = re.compile(r"\s*[–—]\s*")
+
+PREFERRED_HEROES_COL = "Counters (prefered Heros)"
+PREFERRED_SYNERGY_COL = "Prefered synergy "
+ROLE_STRATEGIST_COL = "Strategist"
+ROLE_DUELIST_COL = "Duelest"
+ROLE_VANGUARD_COL = "Vangaurd"
+
+HERO_LIST_COLUMNS = (PREFERRED_HEROES_COL, PREFERRED_SYNERGY_COL)
+ROLE_COLUMNS = (ROLE_STRATEGIST_COL, ROLE_DUELIST_COL, ROLE_VANGUARD_COL)
+SPREADSHEET_HERO_COLUMNS = HERO_LIST_COLUMNS + ROLE_COLUMNS
+
+# Common shorthand typos seen in the sheet; used for suggestions only.
+HERO_NAME_ALIASES: dict[str, str] = {
+    "PUNISHER": "THE PUNISHER",
+    "STARLORD": "STAR-LORD",
+    "STAR LORD": "STAR-LORD",
+    "JEFF THE LANDSHARK": "JEFF THE LAND SHARK",
+    "SPIDERMAN": "SPIDER-MAN",
+    "SPIDER MAN": "SPIDER-MAN",
+    "MOONKNIGHT": "MOON KNIGHT",
+    "IRONMAN": "IRON MAN",
+    "CAPTAINAMERICA": "CAPTAIN AMERICA",
+    "DOCTORSTRANGE": "DOCTOR STRANGE",
+    "WINTERSOLDIER": "WINTER SOLDIER",
+    "BLACKWIDOW": "BLACK WIDOW",
+    "BLACKPANTHER": "BLACK PANTHER",
+    "SCARLETWITCH": "SCARLET WITCH",
+    "MISTERFANTASTIC": "MISTER FANTASTIC",
+    "INVISIBLEWOMAN": "INVISIBLE WOMAN",
+    "HUMANTORCH": "HUMAN TORCH",
+    "ROCKETRACCOON": "ROCKET RACCOON",
+    "ELSABLOODSTONE": "ELSA BLOODSTONE",
+    "WHITEFOX": "WHITE FOX",
+    "EMMAFROST": "EMMA FROST",
+    "LUNASNOW": "LUNA SNOW",
+    "PENIPARKER": "PENI PARKER",
+    "SQUIRRELGIRL": "SQUIRREL GIRL",
+    "ADAMWARLOCK": "ADAM WARLOCK",
+    "DEVILDINOSAUR": "DEVIL DINOSAUR",
+}
+
+
+@dataclass(frozen=True)
+class CsvValidationIssue:
+    row: int
+    column: str
+    issue: str
+    detail: str
+    owner_hero: str = ""
+    owner_ability: str = ""
+
+
+def format_validation_issue(issue: CsvValidationIssue) -> str:
+    owner = f"{issue.owner_hero} / {issue.owner_ability}  -->  " if issue.owner_hero else ""
+    return f"line {issue.row} | {issue.column} | {issue.issue}: {owner}{issue.detail}"
+
+
+def normalize_counter_delimiter(text: str) -> str:
+    """Spreadsheet apps often replace hyphen separators with en/em dashes."""
+    return _COUNTER_DELIMITER.sub(" - ", text or "")
+
+
+def resolve_hero_name(name: str, canonical_hero_map: dict[str, str]) -> str | None:
+    """Return canonical hero name if known, else None."""
+    key = norm_hero(name)
+    if not key or key == "WORK IN PROGRESS":
+        return None
+    if key in canonical_hero_map:
+        return canonical_hero_map[key]
+    alias = HERO_NAME_ALIASES.get(key)
+    if alias and norm_hero(alias) in canonical_hero_map:
+        return canonical_hero_map[norm_hero(alias)]
+    return None
+
+
+def suggest_hero_name(name: str, canonical_hero_map: dict[str, str]) -> str | None:
+    resolved = resolve_hero_name(name, canonical_hero_map)
+    if resolved:
+        return resolved
+    key = norm_hero(name)
+    if not key:
+        return None
+    alias = HERO_NAME_ALIASES.get(key)
+    if alias:
+        return alias
+    matches = [
+        display
+        for norm_key, display in canonical_hero_map.items()
+        if key in norm_key or norm_key in key
+    ]
+    unique = sorted(set(matches))
+    if len(unique) == 1:
+        return unique[0]
+    return None
+
+
+def split_hero_list_cell(cell: str) -> tuple[list[str], list[str]]:
+    """
+    Split a comma-separated hero list.
+    Returns (hero_names, structural_issues).
+    """
+    text = (cell or "").strip()
+    if not text:
+        return [], []
+    issues: list[str] = []
+    parts = text.split(",")
+    names: list[str] = []
+    for index, part in enumerate(parts):
+        piece = part.strip()
+        if not piece:
+            if index < len(parts) - 1:
+                issues.append("empty_segment")
+            continue
+        names.append(piece)
+    return names, issues
+
+
+def validate_hero_reference(
+    name: str,
+    canonical_hero_map: dict[str, str],
+) -> str | None:
+    """Return an error message if the hero name is unknown or a known alias typo."""
+    if not name or norm_hero(name) == "WORK IN PROGRESS":
+        return None
+    key = norm_hero(name)
+    if key in canonical_hero_map:
+        return None
+    alias = HERO_NAME_ALIASES.get(key)
+    if alias:
+        canonical = canonical_hero_map.get(norm_hero(alias))
+        if canonical:
+            return f"hero {name!r} should be spelled {canonical!r}"
+    suggestion = suggest_hero_name(name, canonical_hero_map)
+    if suggestion:
+        return f"unknown hero {name!r} (did you mean {suggestion!r}?)"
+    return f"unknown hero {name!r}"
+
+
+def validate_hero_list_cell_structure(cell: str) -> list[tuple[str, str]]:
+    """Return structural issue codes and details for a hero list cell."""
+    text = (cell or "").strip()
+    if not text:
+        return []
+    issues: list[tuple[str, str]] = []
+    if re.search(r",[^\s,]", text):
+        issues.append(
+            (
+                "comma_spacing",
+                f"add a space after each comma in {text[:80]!r}",
+            )
+        )
+    parts = text.split(",")
+    for index, part in enumerate(parts):
+        if not part.strip() and index < len(parts) - 1:
+            issues.append(
+                ("empty_segment", f"empty name between commas in {text[:80]!r}")
+            )
+    return issues
+
+
+def validate_spreadsheet_columns(
+    csv_path: Path,
+    canonical_hero_map: dict[str, str],
+) -> list[CsvValidationIssue]:
+    """Validate preferred/synergy/role columns for typos and comma issues."""
+    issues: list[CsvValidationIssue] = []
+    with csv_path.open(encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        fieldnames = list(reader.fieldnames or [])
+        for col in SPREADSHEET_HERO_COLUMNS:
+            if col not in fieldnames:
+                issues.append(
+                    CsvValidationIssue(
+                        row=1,
+                        column=col,
+                        issue="missing_column",
+                        detail=f"expected CSV header {col!r}",
+                    )
+                )
+        if issues:
+            return issues
+
+        for row_num, row in enumerate(reader, start=2):
+            owner_hero = (row.get("hero") or "").strip()
+            owner_ability = (row.get("ability_name") or "").strip()
+
+            for col in HERO_LIST_COLUMNS:
+                cell = row.get(col) or ""
+                names, _ = split_hero_list_cell(cell)
+                for code, detail in validate_hero_list_cell_structure(cell):
+                    issues.append(
+                        CsvValidationIssue(
+                            row=row_num,
+                            column=col,
+                            issue=code,
+                            detail=detail,
+                            owner_hero=owner_hero,
+                            owner_ability=owner_ability,
+                        )
+                    )
+                for name in names:
+                    err = validate_hero_reference(name, canonical_hero_map)
+                    if err:
+                        issues.append(
+                            CsvValidationIssue(
+                                row=row_num,
+                                column=col,
+                                issue="unknown_hero",
+                                detail=err,
+                                owner_hero=owner_hero,
+                                owner_ability=owner_ability,
+                            )
+                        )
+
+            for col in ROLE_COLUMNS:
+                cell = (row.get(col) or "").strip()
+                if not cell:
+                    continue
+                if "," in cell:
+                    issues.append(
+                        CsvValidationIssue(
+                            row=row_num,
+                            column=col,
+                            issue="multiple_values",
+                            detail=f"role column should contain one hero, got {cell!r}",
+                            owner_hero=owner_hero,
+                            owner_ability=owner_ability,
+                        )
+                    )
+                    continue
+                err = validate_hero_reference(cell, canonical_hero_map)
+                if err:
+                    issues.append(
+                        CsvValidationIssue(
+                            row=row_num,
+                            column=col,
+                            issue="unknown_hero",
+                            detail=err,
+                            owner_hero=owner_hero,
+                            owner_ability=owner_ability,
+                        )
+                    )
+    return issues
 
 
 def normalize_display_icon(value: str) -> str:
@@ -93,12 +339,95 @@ def parse_counter_cell(cell: str, default_display_icon: str) -> list[dict[str, s
         if m:
             display_d = normalize_display_icon(m.group(1))
             piece = piece[: m.start()].strip()
+        piece = normalize_counter_delimiter(piece)
         if " - " not in piece:
             out.append({"hero": piece, "ability_name": "", "display_icon": display_d})
             continue
         h, a = piece.split(" - ", 1)
         out.append({"hero": h.strip(), "ability_name": a.strip(), "display_icon": display_d})
     return out
+
+
+def validate_counter_cells(
+    csv_path: Path,
+    canonical_hero_map: dict[str, str],
+    default_display_icon: str,
+) -> list[CsvValidationIssue]:
+    """Validate counter column formatting (delimiters, hero names)."""
+    issues: list[CsvValidationIssue] = []
+    with csv_path.open(encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        for row_num, row in enumerate(reader, start=2):
+            owner_hero = (row.get("hero") or "").strip()
+            owner_ability = (row.get("ability_name") or "").strip()
+            cell = (row.get("counter") or "").strip()
+            if not cell:
+                continue
+            if _COUNTER_DELIMITER.search(cell):
+                issues.append(
+                    CsvValidationIssue(
+                        row=row_num,
+                        column="counter",
+                        issue="bad_delimiter",
+                        detail="use ' - ' (hyphen) instead of en/em dash between hero and ability",
+                        owner_hero=owner_hero,
+                        owner_ability=owner_ability,
+                    )
+                )
+            normalized = normalize_counter_delimiter(cell)
+            for entry in parse_counter_cell(normalized, default_display_icon):
+                hero = entry.get("hero") or ""
+                ability = entry.get("ability_name") or ""
+                if hero and not ability:
+                    issues.append(
+                        CsvValidationIssue(
+                            row=row_num,
+                            column="counter",
+                            issue="missing_ability",
+                            detail=f"counter entry {hero!r} is missing ' - ability' suffix",
+                            owner_hero=owner_hero,
+                            owner_ability=owner_ability,
+                        )
+                    )
+                if hero:
+                    err = validate_hero_reference(hero, canonical_hero_map)
+                    if err:
+                        issues.append(
+                            CsvValidationIssue(
+                                row=row_num,
+                                column="counter",
+                                issue="unknown_hero",
+                                detail=err,
+                                owner_hero=owner_hero,
+                                owner_ability=owner_ability,
+                            )
+                        )
+    return issues
+
+
+def print_validation_report(issues: list[CsvValidationIssue]) -> None:
+    if not issues:
+        return
+    grouped: dict[str, list[CsvValidationIssue]] = {}
+    for issue in issues:
+        grouped.setdefault(issue.issue, []).append(issue)
+    order = (
+        "missing_column",
+        "comma_spacing",
+        "empty_segment",
+        "multiple_values",
+        "bad_delimiter",
+        "missing_ability",
+        "unknown_hero",
+    )
+    for kind in order:
+        bucket = grouped.get(kind)
+        if not bucket:
+            continue
+        title = kind.replace("_", " ").title()
+        print(f"\n=== Spreadsheet {title} ({len(bucket)}) ===", file=sys.stderr)
+        for issue in sorted(bucket, key=lambda i: (i.row, i.column, i.detail)):
+            print(format_validation_issue(issue), file=sys.stderr)
 
 
 def build_ability_meta_map(csv_path: Path) -> dict[tuple[str, str], dict[str, str]]:
@@ -126,19 +455,12 @@ def build_ability_meta_map(csv_path: Path) -> dict[tuple[str, str], dict[str, st
     return meta
 
 
-PREFERRED_HEROES_COL = "Counters (prefered Heros)"
-
-
 def parse_preferred_heroes_cell(cell: str) -> list[str]:
     """Turn a CSV preferred-heroes string into ordered unique hero names."""
-    if not cell or not str(cell).strip():
-        return []
+    names, _ = split_hero_list_cell(cell)
     out: list[str] = []
     seen: set[str] = set()
-    for part in str(cell).split(","):
-        name = part.strip()
-        if not name:
-            continue
+    for name in names:
         key = norm_hero(name)
         if key in seen:
             continue
@@ -199,8 +521,9 @@ def apply_preferred_heroes(
             continue
         entries: list[dict[str, str]] = []
         for pref in pref_names:
-            pref_key = norm_hero(pref)
-            canonical = canonical_hero_map.get(pref_key, pref.strip())
+            resolved = resolve_hero_name(pref, canonical_hero_map)
+            pref_key = norm_hero(resolved or pref)
+            canonical = canonical_hero_map.get(pref_key, (resolved or pref).strip())
             entries.append(
                 {
                     "hero": canonical,
@@ -374,7 +697,12 @@ def main() -> None:
     parser.add_argument(
         "--verbose-missing",
         action="store_true",
-        help="Log each missing counter ability CSV lookup and missing hero portrait (stderr)",
+        help="Log missing lookups and spreadsheet validation issues (stderr)",
+    )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit with code 1 when spreadsheet validation issues are found",
     )
     parser.add_argument(
         "--abilities-json",
@@ -400,6 +728,10 @@ def main() -> None:
 
     hero_icon_map = build_hero_icon_map(abilities_path)
     canonical_hero_map = build_canonical_hero_map(abilities_path)
+    validation_issues = validate_spreadsheet_columns(csv_path, canonical_hero_map)
+    validation_issues += validate_counter_cells(
+        csv_path, canonical_hero_map, args.default_display_icon
+    )
     ability_meta = build_ability_meta_map(csv_path)
     counter_map = build_counter_map(csv_path)
     preferred_map = build_preferred_heroes_map(csv_path)
@@ -425,6 +757,9 @@ def main() -> None:
         canonical_hero_map,
         data.get("hero_notes") or {},
     )
+
+    if args.verbose_missing:
+        print_validation_report(validation_issues)
 
     if args.verbose_missing and missing_ability_lines:
         print(
@@ -455,18 +790,21 @@ def main() -> None:
         f"counter picks missing ability row lookup: {missing_meta} | "
         f"counter picks missing hero_icon: {missing_hero_icon} | "
         f"missing-key warnings: {len(warnings)} | "
-        f"preferred counter heroes: {preferred_hero_count}"
+        f"preferred counter heroes: {preferred_hero_count} | "
+        f"spreadsheet validation issues: {len(validation_issues)}"
     )
 
     if args.dry_run:
         print("dry-run: not writing", json_path)
-        return
+    else:
+        json_path.write_text(
+            json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        print(f"wrote {json_path}")
 
-    json_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
-    print(f"wrote {json_path}")
+    if validation_issues and (args.strict or args.verbose_missing):
+        sys.exit(1)
 
 
 if __name__ == "__main__":
