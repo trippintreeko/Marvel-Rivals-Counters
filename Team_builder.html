@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6v6 Team Builder — Marvel Rivals Counter Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── shared tokens (mirrors styles.css) ─── */
+      :root {
+        --bg: #080b14;
+        --panel: #121828;
+        --panel-2: #1a2338;
+        --line: #2d3a59;
+        --gold: #ffcc4d;
+        --blue: #53a5ff;
+        --red: #ff5353;
+        --green: #4dffaa;
+        --text: #e8eefc;
+        --muted: #a6b4d6;
+        --enemy: #ff4444;
+        --ally: #44aaff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #131b31 0%, var(--bg) 35%);
+        color: var(--text);
+        font-family: Inter, Arial, sans-serif;
+      }
+
+      /* ─── top-bar ─── */
+      .topbar {
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 68, 68, 0.06),
+          rgba(83, 165, 255, 0.04)
+        );
+      }
+      .topbar__inner {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 1.2rem 1.2rem 1.4rem;
+      }
+      .eyebrow {
+        color: var(--gold);
+        font-family: "Barlow Condensed", Impact, sans-serif;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        margin: 0;
+      }
+      h1 {
+        margin: 0.25rem 0 0;
+        font-family: "Barlow Condensed", Impact, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      }
+      .subtitle {
+        margin: 0.3rem 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* ─── nav pill to go back ─── */
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--panel-2);
+        color: var(--muted);
+        padding: 0.3rem 0.75rem;
+        font-size: 0.82rem;
+        text-decoration: none;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          color 0.15s;
+      }
+      .back-link:hover {
+        border-color: var(--blue);
+        color: var(--text);
+      }
+
+      /* ─── layout ─── */
+      .builder-layout {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 1rem 1.2rem 3rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 1rem;
+      }
+
+      /* ─── mode toggle ─── */
+      .mode-bar {
+        grid-column: 1/-1;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .mode-label {
+        font-family: "Barlow Condensed", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .mode-toggle {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .mode-btn {
+        border: none;
+        background: var(--panel-2);
+        color: var(--muted);
+        padding: 0.45rem 1.1rem;
+        font-size: 0.88rem;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .mode-btn + .mode-btn {
+        border-left: 1px solid var(--line);
+      }
+      .mode-btn.active {
+        background: #223056;
+        color: var(--text);
+      }
+
+      .hero-search-bar {
+        flex: 1;
+        min-width: 200px;
+        max-width: 320px;
+        border: 1px solid var(--line);
+        background: #0f1524;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 0.45rem 0.7rem;
+        font-size: 0.9rem;
+      }
+
+      /* ─── team panels ─── */
+      .team-panel {
+        border: 1px solid var(--line);
+        background: rgba(18, 24, 40, 0.88);
+        border-radius: 14px;
+        padding: 1rem;
+      }
+      .team-panel--enemy {
+        border-color: rgba(255, 68, 68, 0.35);
+      }
+      .team-panel--ally {
+        border-color: rgba(83, 165, 255, 0.35);
+      }
+
+      .team-panel h2 {
+        margin: 0;
+        font-family: "Barlow Condensed", Impact, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 1.3rem;
+      }
+      .team-panel__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.65rem;
+      }
+      .team-panel__head .mode-toggle {
+        flex-shrink: 0;
+      }
+      .team-panel--enemy h2 {
+        color: var(--enemy);
+      }
+      .team-panel--ally h2 {
+        color: var(--ally);
+      }
+
+      /* slot row */
+      .slot-section-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin: 0 0 0.35rem;
+        font-family: "Barlow Condensed", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .slot-row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.45rem;
+        margin-bottom: 0.8rem;
+      }
+      .slot-row--bans {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 50%;
+        margin-bottom: 0.65rem;
+      }
+      .hero-slot {
+        aspect-ratio: 1/1;
+        border-radius: 10px;
+        border: 2px dashed var(--line);
+        background: #0a1020;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        color: var(--muted);
+        text-align: center;
+        padding: 0.2rem;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .hero-slot:hover {
+        border-color: var(--muted);
+      }
+      .hero-slot.filled {
+        border-style: solid;
+        padding: 0;
+      }
+      .hero-slot.filled img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+      }
+      .hero-slot .slot-name {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+        font-size: 0.62rem;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.03em;
+        padding: 0.25rem 0.2rem 0.2rem;
+        text-align: center;
+        color: #fff;
+        text-transform: uppercase;
+      }
+      .slot-remove {
+        position: absolute;
+        top: 2px;
+        right: 3px;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        color: var(--muted);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        font-size: 10px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .hero-slot.filled:hover .slot-remove {
+        display: flex;
+      }
+
+      .team-panel--enemy .hero-slot.filled {
+        border-color: rgba(255, 68, 68, 0.6);
+      }
+      .team-panel--ally .hero-slot.filled {
+        border-color: rgba(83, 165, 255, 0.6);
+      }
+      .hero-slot--ban {
+        border-style: solid;
+        border-color: rgba(255, 204, 77, 0.55) !important;
+        background: rgba(255, 204, 77, 0.06);
+      }
+      .hero-slot--ban .slot-name {
+        background: linear-gradient(transparent, rgba(80, 50, 0, 0.9));
+        color: var(--gold);
+      }
+      .hero-slot--ban::after {
+        content: "BAN";
+        position: absolute;
+        top: 3px;
+        left: 4px;
+        font-size: 0.5rem;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        color: var(--gold);
+        background: rgba(0, 0, 0, 0.65);
+        padding: 0.1rem 0.25rem;
+        border-radius: 3px;
+      }
+
+      /* hero picker grid */
+      .picker-label {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin: 0 0 0.4rem;
+        font-family: "Barlow Condensed", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .hero-picker {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 0.35rem;
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 0.15rem;
+      }
+      .picker-btn {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: #101725;
+        padding: 0.15rem;
+        cursor: pointer;
+        position: relative;
+        transition:
+          border-color 0.12s,
+          background 0.12s;
+      }
+      .picker-btn img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 5px;
+        display: block;
+      }
+      .picker-btn:hover {
+        border-color: var(--muted);
+        background: #17233a;
+      }
+      .picker-btn.in-use {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+      .picker-btn.is-selected {
+        cursor: pointer;
+        opacity: 1;
+      }
+      .team-panel--enemy .picker-btn.is-selected {
+        border-color: var(--enemy);
+        background: rgba(255, 68, 68, 0.12);
+      }
+      .team-panel--ally .picker-btn.is-selected {
+        border-color: var(--ally);
+        background: rgba(68, 170, 255, 0.12);
+      }
+      .picker-btn.is-banned {
+        opacity: 0.3;
+        cursor: not-allowed;
+        filter: grayscale(0.85);
+      }
+      .team-panel--enemy .picker-btn.is-selected-ban {
+        border-color: var(--gold);
+        background: rgba(255, 204, 77, 0.12);
+      }
+      .team-panel--ally .picker-btn.is-selected-ban {
+        border-color: var(--gold);
+        background: rgba(255, 204, 77, 0.12);
+      }
+      .picker-btn .picker-name {
+        font-size: 0.58rem;
+        font-family: "Barlow Condensed", sans-serif;
+        text-align: center;
+        color: var(--muted);
+        margin-top: 0.2rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* ─── results panel ─── */
+      .results-panel {
+        grid-column: 1/-1;
+        border: 1px solid var(--line);
+        background: rgba(18, 24, 40, 0.88);
+        border-radius: 14px;
+        padding: 1rem;
+      }
+      .results-panel h2 {
+        margin: 0 0 0.25rem;
+        font-family: "Barlow Condensed", Impact, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 1.4rem;
+        color: var(--gold);
+      }
+      .results-subtitle {
+        margin: 0 0 1rem;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      /* counters grid */
+      .counter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 0.6rem;
+      }
+      .counter-card {
+        border: 1px solid var(--line);
+        background: linear-gradient(160deg, #131e36, #0d1524);
+        border-radius: 10px;
+        padding: 0.65rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .counter-card.top-pick {
+        border-color: var(--gold);
+        background: linear-gradient(160deg, #1f2a12, #141e0e);
+        box-shadow: 0 0 0 1px rgba(255, 204, 77, 0.15) inset;
+      }
+      .counter-card.top-pick .cc-hero-name {
+        color: var(--gold);
+      }
+
+      .cc-head {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+      }
+      .cc-portrait {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 1px solid var(--line);
+        background: #0a0f1a;
+        flex-shrink: 0;
+      }
+      .cc-hero-name {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--text);
+        line-height: 1.1;
+      }
+      .cc-score {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background: rgba(255, 204, 77, 0.12);
+        border: 1px solid rgba(255, 204, 77, 0.25);
+        border-radius: 999px;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.75rem;
+        font-family: "Barlow Condensed", sans-serif;
+        color: var(--gold);
+        letter-spacing: 0.04em;
+      }
+      .cc-score .star {
+        font-size: 0.7rem;
+      }
+      .cc-targets {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+      .cc-target-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: rgba(255, 68, 68, 0.1);
+        border: 1px solid rgba(255, 68, 68, 0.2);
+        border-radius: 999px;
+        padding: 0.1rem 0.4rem 0.1rem 0.25rem;
+        font-size: 0.73rem;
+        color: #ffaaaa;
+      }
+      .cc-target-chip img {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid #38507d;
+      }
+      .cc-already-label {
+        font-size: 0.73rem;
+        color: #66bb88;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      .cc-badge-row {
+        display: flex;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+      .cc-badge {
+        font-size: 0.7rem;
+        font-family: "Barlow Condensed", sans-serif;
+        border-radius: 4px;
+        padding: 0.1rem 0.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .cc-badge.already {
+        background: rgba(77, 255, 170, 0.12);
+        border: 1px solid rgba(77, 255, 170, 0.25);
+        color: var(--green);
+      }
+      .cc-badge.gap {
+        background: rgba(83, 165, 255, 0.12);
+        border: 1px solid rgba(83, 165, 255, 0.25);
+        color: var(--blue);
+      }
+
+      /* empty / loading states */
+      .results-empty {
+        color: var(--muted);
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        font-size: 0.95rem;
+      }
+
+      /* top-picks label */
+      .section-label {
+        font-family: "Barlow Condensed", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.85rem;
+        margin: 0 0 0.5rem;
+      }
+      .section-label.gold {
+        color: var(--gold);
+      }
+      .section-label.blue {
+        color: var(--blue);
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--line);
+        margin: 0.9rem 0;
+      }
+
+      @media (max-width: 760px) {
+        .builder-layout {
+          grid-template-columns: 1fr;
+        }
+        .results-panel {
+          grid-column: 1;
+        }
+      }
+
+      /* scroll for picker */
+      .hero-picker::-webkit-scrollbar {
+        width: 4px;
+      }
+      .hero-picker::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .hero-picker::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 2px;
+      }
+
+      .no-results-hint {
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin: 0.5rem 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a href="./index.html" class="back-link">← Hero Guide</a>
+        <p class="eyebrow">Strategy Tool</p>
+        <h1>6v6 Team Counter Builder</h1>
+        <p class="subtitle">
+          Pick the enemy team (or your own team) and instantly see which heroes
+          best counter the lineup, ranked by how many enemies they're effective
+          against.
+        </p>
+      </div>
+    </header>
+
+    <main class="builder-layout" id="app">
+      <div class="results-empty" style="grid-column: 1/-1">
+        Loading hero data…
+      </div>
+    </main>
+
+    <script>
+      async function loadJson(path) {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Failed to load ${path}: ${response.status}`);
+        return response.json();
+      }
+
+      function norm(s) {
+        return (s || "").toLowerCase().trim();
+      }
+
+      let iconByHero = new Map();
+
+      function getPortrait(heroName) {
+        return iconByHero.get(norm(heroName)) || "";
+      }
+
+      // Build lookup from preferred_counter_heroes (same data as the main hero guide).
+      function buildData(preferredCounterHeroes, heroes) {
+        const heroMap = new Map();
+        const allHeroNames = new Map();
+
+        for (const hero of heroes) {
+          const key = norm(hero.hero);
+          allHeroNames.set(key, hero.hero);
+          if (hero.hero_icon) iconByHero.set(key, hero.hero_icon);
+        }
+
+        for (const [targetHero, counters] of Object.entries(preferredCounterHeroes || {})) {
+          const nHero = norm(targetHero);
+          const displayTarget = allHeroNames.get(nHero) || targetHero;
+          allHeroNames.set(nHero, displayTarget);
+
+          if (!heroMap.has(nHero)) {
+            heroMap.set(nHero, {
+              displayName: displayTarget,
+              counters: new Set(),
+              counterDisplayNames: new Map(),
+            });
+          }
+
+          for (const entry of counters || []) {
+            const pref = (entry.hero || "").trim();
+            const prefNorm = norm(pref);
+            if (!pref || prefNorm === "work in progress") continue;
+
+            const displayPref = allHeroNames.get(prefNorm) || pref;
+            allHeroNames.set(prefNorm, displayPref);
+            if (entry.hero_icon) iconByHero.set(prefNorm, entry.hero_icon);
+
+            const target = heroMap.get(nHero);
+            if (!target.counters.has(prefNorm)) {
+              target.counters.add(prefNorm);
+              target.counterDisplayNames.set(prefNorm, displayPref);
+            }
+          }
+        }
+
+        return { heroMap, allHeroNames };
+      }
+
+      // ─────────────────────────────────────────────────────────────────────────
+      // Score candidates: given a set of target heroes, rank all other heroes
+      // by how many targets list them as a preferred counter.
+      // ─────────────────────────────────────────────────────────────────────────
+      function scoreCandidates(
+        targetHeroNorms,
+        heroMap,
+        allyNorms,
+        bannedNorms,
+      ) {
+        const candidates = new Map();
+
+        for (const targetNorm of targetHeroNorms) {
+          const entry = heroMap.get(targetNorm);
+          if (!entry) continue;
+          for (const [
+            counterNorm,
+            counterDisplay,
+          ] of entry.counterDisplayNames) {
+            if (targetHeroNorms.has(counterNorm)) continue;
+            if (bannedNorms.has(counterNorm)) continue;
+            if (!candidates.has(counterNorm)) {
+              candidates.set(counterNorm, {
+                hero: counterDisplay,
+                heroNorm: counterNorm,
+                score: 0,
+                targets: [],
+                alreadyOnTeam: allyNorms.has(counterNorm),
+              });
+            }
+            const c = candidates.get(counterNorm);
+            c.score++;
+            const targetEntry = heroMap.get(targetNorm);
+            c.targets.push(targetEntry ? targetEntry.displayName : targetNorm);
+          }
+        }
+
+        return Array.from(candidates.values()).sort(
+          (a, b) => b.score - a.score || a.hero.localeCompare(b.hero),
+        );
+      }
+
+      function globalBans() {
+        const merged = new Set(enemyBans);
+        for (const hero of allyBans) merged.add(hero);
+        return merged;
+      }
+
+      function getLineupSet(team) {
+        return team === "enemy" ? enemyTeam : allyTeam;
+      }
+
+      function getBanSet(team) {
+        return team === "enemy" ? enemyBans : allyBans;
+      }
+
+      function getEditMode(team) {
+        return team === "enemy" ? enemyEditMode : allyEditMode;
+      }
+
+      function pickerHint(team) {
+        const editMode = getEditMode(team);
+        if (editMode === "bans") {
+          return team === "enemy"
+            ? "Ban mode — click heroes to fill 3 enemy bans"
+            : "Ban mode — click heroes to fill 3 ally bans";
+        }
+        return team === "enemy"
+          ? "Lineup mode — select up to 6 enemies (banned heroes unavailable)"
+          : "Lineup mode — mark allies already picked (banned heroes unavailable)";
+      }
+
+      function buildModeToggleHtml(team) {
+        const editMode = getEditMode(team);
+        return `
+          <div class="mode-toggle" role="group" aria-label="${team === "enemy" ? "Enemy" : "Ally"} assignment mode">
+            <button type="button" class="mode-btn${editMode === "lineup" ? " active" : ""}" data-mode-toggle data-team="${team}" data-mode="lineup">Lineup</button>
+            <button type="button" class="mode-btn${editMode === "bans" ? " active" : ""}" data-mode-toggle data-team="${team}" data-mode="bans">Bans</button>
+          </div>`;
+      }
+
+      // ─────────────────────────────────────────────────────────────────────────
+      // State
+      // ─────────────────────────────────────────────────────────────────────────
+      let heroMap = new Map();
+      let allHeroNames = new Map();
+      let heroList = []; // sorted display names
+
+      let enemyTeam = new Set();
+      let allyTeam = new Set();
+      let enemyBans = new Set();
+      let allyBans = new Set();
+      let enemyEditMode = "lineup";
+      let allyEditMode = "lineup";
+      let filterQuery = "";
+
+      // ─────────────────────────────────────────────────────────────────────────
+      // Render
+      // ─────────────────────────────────────────────────────────────────────────
+      function render() {
+        const app = document.getElementById("app");
+
+        const enemySlots = buildSlotsHtml("enemy", "lineup");
+        const enemyBanSlots = buildSlotsHtml("enemy", "bans");
+        const allySlots = buildSlotsHtml("ally", "lineup");
+        const allyBanSlots = buildSlotsHtml("ally", "bans");
+        const bannedNorms = globalBans();
+
+        const results =
+          enemyTeam.size > 0
+            ? scoreCandidates(enemyTeam, heroMap, allyTeam, bannedNorms)
+            : [];
+
+        const q = norm(filterQuery);
+        const filteredHeroes = heroList.filter((h) => norm(h).includes(q));
+
+        app.innerHTML = `
+        <!-- mode bar -->
+        <div class="mode-bar">
+          <span class="mode-label">Team Builder</span>
+          <input
+            class="hero-search-bar"
+            type="search"
+            placeholder="Filter heroes…"
+            id="heroFilter"
+            value="${escHtml(filterQuery)}"
+          />
+        </div>
+
+        <!-- Enemy panel -->
+        <div class="team-panel team-panel--enemy">
+          <div class="team-panel__head">
+            <h2>⚔️ Enemy Team</h2>
+            ${buildModeToggleHtml("enemy")}
+          </div>
+          <p class="slot-section-label">Bans (3)</p>
+          <div class="slot-row slot-row--bans" id="enemyBanSlots">${enemyBanSlots}</div>
+          <p class="slot-section-label">Lineup (6)</p>
+          <div class="slot-row" id="enemySlots">${enemySlots}</div>
+          <p class="picker-label">${escHtml(pickerHint("enemy"))}</p>
+          <div class="hero-picker" id="enemyPicker">
+            ${buildPickerHtml(filteredHeroes, "enemy")}
+          </div>
+        </div>
+
+        <!-- Ally panel -->
+        <div class="team-panel team-panel--ally">
+          <div class="team-panel__head">
+            <h2>🛡️ My Team</h2>
+            ${buildModeToggleHtml("ally")}
+          </div>
+          <p class="slot-section-label">Bans (3)</p>
+          <div class="slot-row slot-row--bans" id="allyBanSlots">${allyBanSlots}</div>
+          <p class="slot-section-label">Lineup (6)</p>
+          <div class="slot-row" id="allySlots">${allySlots}</div>
+          <p class="picker-label">${escHtml(pickerHint("ally"))}</p>
+          <div class="hero-picker" id="allyPicker">
+            ${buildPickerHtml(filteredHeroes, "ally")}
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-panel">
+          ${buildResultsHtml(results, bannedNorms)}
+        </div>
+      `;
+
+        // Attach events
+        document.getElementById("heroFilter").addEventListener("input", (e) => {
+          filterQuery = e.target.value;
+          render();
+        });
+
+        app.querySelectorAll("[data-mode-toggle]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const { team, mode } = btn.dataset;
+            if (team === "enemy") enemyEditMode = mode;
+            else allyEditMode = mode;
+            render();
+          });
+        });
+
+        // Slot remove buttons
+        app.querySelectorAll("[data-remove]").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const { team, hero, slotType } = btn.dataset;
+            if (slotType === "bans") {
+              getBanSet(team).delete(hero);
+            } else {
+              getLineupSet(team).delete(hero);
+            }
+            render();
+          });
+        });
+
+        // Picker buttons — click again to deselect
+        app.querySelectorAll("[data-pick]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const { team, hero } = btn.dataset;
+            const editMode = getEditMode(team);
+
+            if (editMode === "bans") {
+              const banSet = getBanSet(team);
+              if (banSet.has(hero)) {
+                banSet.delete(hero);
+              } else if (banSet.size < 3) {
+                banSet.add(hero);
+                enemyTeam.delete(hero);
+                allyTeam.delete(hero);
+              }
+            } else {
+              if (globalBans().has(hero)) return;
+              const lineup = getLineupSet(team);
+              if (lineup.has(hero)) {
+                lineup.delete(hero);
+              } else if (lineup.size < 6) {
+                lineup.add(hero);
+              }
+            }
+            render();
+          });
+        });
+      }
+
+      function buildSlotsHtml(team, slotType) {
+        const set = slotType === "bans" ? getBanSet(team) : getLineupSet(team);
+        const maxSlots = slotType === "bans" ? 3 : 6;
+        const members = Array.from(set);
+        const banClass = slotType === "bans" ? " hero-slot--ban" : "";
+        let html = "";
+        for (let i = 0; i < maxSlots; i++) {
+          if (i < members.length) {
+            const normName = members[i];
+            const display = allHeroNames.get(normName) || normName;
+            const portrait = getPortrait(display);
+            html += `
+            <div class="hero-slot filled${banClass}" title="${escHtml(display)}">
+              ${portrait ? `<img src="${portrait}" alt="${escHtml(display)}" loading="lazy"/>` : `<span style="font-size:.65rem;padding:.3rem;text-align:center">${escHtml(display)}</span>`}
+              <span class="slot-name">${escHtml(display)}</span>
+              <button class="slot-remove" data-remove data-team="${team}" data-slot-type="${slotType}" data-hero="${escHtml(normName)}" title="Remove">✕</button>
+            </div>`;
+          } else {
+            html += `<div class="hero-slot${banClass}"><span>+</span></div>`;
+          }
+        }
+        return html;
+      }
+
+      function buildPickerHtml(heroes, team) {
+        const editMode = getEditMode(team);
+        const lineup = getLineupSet(team);
+        const bans = getBanSet(team);
+        const allBanned = globalBans();
+
+        return heroes
+          .map((display) => {
+            const normName = norm(display);
+            const portrait = getPortrait(display);
+            const classes = ["picker-btn"];
+            let disabled = false;
+            let titleSuffix = "";
+
+            if (editMode === "bans") {
+              const inBans = bans.has(normName);
+              if (inBans) {
+                classes.push("is-selected-ban");
+                titleSuffix = " (click to remove)";
+              }
+              disabled = bans.size >= 3 && !inBans;
+            } else {
+              const inLineup = lineup.has(normName);
+              const isBanned = allBanned.has(normName);
+              if (inLineup) {
+                classes.push("is-selected");
+                titleSuffix = " (click to remove)";
+              }
+              if (isBanned) {
+                classes.push("is-banned");
+                titleSuffix = " (banned)";
+                disabled = true;
+              } else {
+                disabled = lineup.size >= 6 && !inLineup;
+              }
+            }
+
+            if (disabled && !classes.includes("is-banned")) classes.push("in-use");
+
+            return `
+          <button class="${classes.join(" ")}"
+            data-pick data-team="${team}" data-hero="${escHtml(normName)}"
+            title="${escHtml(display)}${titleSuffix}"
+            ${disabled ? "disabled" : ""}>
+            ${
+              portrait
+                ? `<img src="${portrait}" alt="${escHtml(display)}" loading="lazy"/>`
+                : `<div style="aspect-ratio:1/1;background:#1a2338;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--muted);padding:.2rem">${escHtml(display.charAt(0))}</div>`
+            }
+            <div class="picker-name">${escHtml(display)}</div>
+          </button>`;
+          })
+          .join("");
+      }
+
+      function buildResultsHtml(results, bannedNorms) {
+        if (enemyTeam.size === 0) {
+          return `
+          <h2>Counter Recommendations</h2>
+          <p class="results-subtitle">Add enemies above to see counter picks ranked by effectiveness.</p>
+          <div class="results-empty">Select at least one enemy hero to generate counter recommendations.</div>`;
+        }
+
+        if (results.length === 0) {
+          return `
+          <h2>Counter Recommendations</h2>
+          <p class="results-subtitle">No preferred counter data found for this lineup yet — check back as the dataset grows.</p>`;
+        }
+
+        const onTeam = results.filter((r) => r.alreadyOnTeam);
+        const suggest = results.filter((r) => !r.alreadyOnTeam);
+        const slotsRemaining = Math.max(0, 6 - allyTeam.size);
+        const enemyCount = enemyTeam.size;
+        const banCount = bannedNorms.size;
+
+        let html = `
+        <h2>Counter Recommendations</h2>
+        <p class="results-subtitle">
+          Based on preferred counters for the ${enemyCount} enemy hero${enemyCount !== 1 ? "es" : ""} selected.
+          Score = how many enemies this hero is listed as a preferred counter against.
+          ${banCount > 0 ? `${banCount} hero${banCount !== 1 ? "es" : ""} banned and excluded from suggestions.` : ""}
+          ${allyTeam.size > 0 ? `${allyTeam.size} ally slot${allyTeam.size !== 1 ? "s" : ""} filled — ${slotsRemaining} remaining to cover enemy weaknesses.` : ""}
+        </p>`;
+
+        if (onTeam.length) {
+          html += `<p class="section-label green" style="color:var(--green)">✓ Already on your team</p>`;
+          html += `<div class="counter-grid">${onTeam.map((r) => cardHtml(r, false)).join("")}</div>`;
+          html += `<hr class="divider"/>`;
+        }
+
+        if (suggest.length) {
+          html += `<p class="section-label gold">${slotsRemaining > 0 ? `★ Suggested picks for ${slotsRemaining} remaining slot${slotsRemaining !== 1 ? "s" : ""}` : "★ Additional counter options"}</p>`;
+          html += `<div class="counter-grid">${suggest.map((r, i) => cardHtml(r, slotsRemaining > 0 && i < slotsRemaining)).join("")}</div>`;
+        }
+
+        return html;
+      }
+
+      function cardHtml(r, isTop) {
+        const portrait = getPortrait(r.hero);
+        const pct = Math.round((r.score / enemyTeam.size) * 100);
+        // dedupe targets
+        const uniqueTargets = [...new Set(r.targets)];
+
+        const targetChips = uniqueTargets
+          .map((t) => {
+            const p = getPortrait(t);
+            return `<span class="cc-target-chip">
+          ${p ? `<img src="${p}" alt="${escHtml(t)}" loading="lazy"/>` : ""}
+          ${escHtml(t)}
+        </span>`;
+          })
+          .join("");
+
+        const alreadyBadge = r.alreadyOnTeam
+          ? `<span class="cc-badge already">On Team</span>`
+          : "";
+        const topBadge =
+          isTop && !r.alreadyOnTeam
+            ? `<span class="cc-badge gap">Top Pick</span>`
+            : "";
+
+        return `
+        <div class="counter-card${isTop && !r.alreadyOnTeam ? " top-pick" : ""}">
+          <div class="cc-head">
+            ${
+              portrait
+                ? `<img class="cc-portrait" src="${portrait}" alt="${escHtml(r.hero)}" loading="lazy"/>`
+                : `<div class="cc-portrait" style="display:flex;align-items:center;justify-content:center;font-size:1.1rem">${r.hero.charAt(0)}</div>`
+            }
+            <div>
+              <div class="cc-hero-name">${escHtml(r.hero)}</div>
+              <div class="cc-score"><span class="star">★</span> ${r.score} / ${enemyTeam.size} countered</div>
+            </div>
+          </div>
+          ${alreadyBadge || topBadge ? `<div class="cc-badge-row">${alreadyBadge}${topBadge}</div>` : ""}
+          <div class="cc-targets">${targetChips}</div>
+        </div>`;
+      }
+
+      function escHtml(s) {
+        return (s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      // Boot: load the same JSON data as the main hero guide
+      async function boot() {
+        try {
+          const [abilityData, notesData] = await Promise.all([
+            loadJson("./abilities-data.json"),
+            loadJson("./counters-notes.json"),
+          ]);
+
+          const heroes = abilityData.heroes || [];
+          const preferredCounterHeroes =
+            (notesData && notesData.preferred_counter_heroes) || {};
+          const built = buildData(preferredCounterHeroes, heroes);
+          heroMap = built.heroMap;
+          allHeroNames = built.allHeroNames;
+
+          heroList = heroes.map((h) => h.hero).sort((a, b) => a.localeCompare(b));
+
+          render();
+        } catch (err) {
+          document.getElementById("app").innerHTML =
+            `<div class="results-empty" style="grid-column:1/-1">Failed to load hero data: ${escHtml(err.message)}</div>`;
+        }
+      }
+
+      boot();
+    </script>
+  </body>
+</html>

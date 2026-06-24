@@ -130,8 +130,16 @@ h1 {
   text-transform: uppercase;
 }
 
-.view-switch__btn + .view-switch__btn {
+.view-switch__btn + .view-switch__btn,
+.view-switch__btn + a.view-switch__btn,
+a.view-switch__btn + .view-switch__btn {
   border-left: 1px solid var(--line);
+}
+
+a.view-switch__btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .view-switch__btn.is-active,
