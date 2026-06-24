@@ -282,7 +282,9 @@ components:
       type: object
       description: >-
         Heroes called out as strong answers against this ability (or hero,
-        when aggregated) for each playstyle label.
+        when aggregated) for each playstyle label. In team-building logic,
+        use the column that beats the enemy's playstyle: Poke beats Brawl,
+        Brawl beats Dive, Dive beats Poke (e.g. enemy Brawl → use `poke` picks).
       properties:
         dive:
           type: array
@@ -300,6 +302,27 @@ components:
             type: string
           example: ["Hulk"]
       required: [dive, poke, brawl]
+
+    PlaystyleRules:
+      type: object
+      description: >-
+        Rock-paper-scissors matchup between playstyles. Each key is the
+        winning playstyle; its value is the playstyle it beats.
+      properties:
+        poke_beats:
+          type: string
+          enum: [brawl]
+          example: brawl
+        brawl_beats:
+          type: string
+          enum: [dive]
+          example: dive
+        dive_beats:
+          type: string
+          enum: [poke]
+          example: poke
+      required: [poke_beats, brawl_beats, dive_beats]
+      additionalProperties: false
 
     PlaystyleCounterMap:
       type: object
@@ -354,6 +377,8 @@ components:
           $ref: "#/components/schemas/RoleCounterMap"
         playstyles:
           $ref: "#/components/schemas/PlaystyleCounterMap"
+        playstyle_rules:
+          $ref: "#/components/schemas/PlaystyleRules"
         countered_by:
           type: array
           items:
@@ -373,6 +398,7 @@ components:
         - synergies
         - role_counters
         - playstyles
+        - playstyle_rules
         - countered_by
         - counters
 
@@ -424,8 +450,10 @@ components:
           $ref: "#/components/schemas/RoleCounters"
         playstyles:
           $ref: "#/components/schemas/PlaystyleCounters"
+        playstyle_rules:
+          $ref: "#/components/schemas/PlaystyleRules"
       required:
-        [hero, ranked_counters, preferred_counters, synergies, role_counters, playstyles]
+        [hero, ranked_counters, preferred_counters, synergies, role_counters, playstyles, playstyle_rules]
 
     NotFoundError:
       type: object

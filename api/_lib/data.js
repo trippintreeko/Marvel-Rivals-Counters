@@ -9,6 +9,23 @@ const CSV_PATH = path.join(
 
 let cache = null;
 
+/** Poke beats Brawl, Brawl beats Dive, Dive beats Poke. */
+const PLAYSTYLE_MATCHUP = Object.freeze({
+  poke: "brawl",
+  brawl: "dive",
+  dive: "poke",
+});
+
+const PLAYSTYLE_RULES = Object.freeze({
+  poke_beats: "brawl",
+  brawl_beats: "dive",
+  dive_beats: "poke",
+});
+
+function counterPlaystyleFor(enemyPlaystyle) {
+  return PLAYSTYLE_MATCHUP[normalize(enemyPlaystyle)] || null;
+}
+
 function normalize(value) {
   return (value || "").toString().toLowerCase().trim();
 }
@@ -335,6 +352,7 @@ function serializeAbility(record) {
     synergies: record.synergies,
     role_counters: record.role_counters,
     playstyles: record.playstyles,
+    playstyle_rules: PLAYSTYLE_RULES,
     countered_by: record.countered_by,
     counters: record.counters,
   };
@@ -414,6 +432,7 @@ function rankHeroCounters(heroNameRaw) {
       poke: sortNames(playstyles.poke),
       brawl: sortNames(playstyles.brawl),
     },
+    playstyle_rules: PLAYSTYLE_RULES,
   };
 }
 
@@ -437,6 +456,9 @@ function suggestAbilityNames(heroNameRaw, query, limit = 5) {
 
 module.exports = {
   normalize,
+  PLAYSTYLE_MATCHUP,
+  PLAYSTYLE_RULES,
+  counterPlaystyleFor,
   loadDataset,
   findHero,
   findAbility,

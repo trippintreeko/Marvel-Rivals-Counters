@@ -500,6 +500,58 @@ def build_preferred_heroes_map(csv_path: Path) -> dict[str, list[str]]:
     return result
 
 
+def _append_playstyle_cell(
+    result: dict[str, dict[str, list[str]]],
+    seen: dict[str, dict[str, set[str]]],
+    owner_key: str,
+    style_key: str,
+    cell: str,
+) -> None:
+    names = parse_preferred_heroes_cell(cell)
+    if not names:
+        return
+    if owner_key not in result:
+        result[owner_key] = {"dive": [], "poke": [], "brawl": []}
+        seen[owner_key] = {"dive": set(), "poke": set(), "brawl": set()}
+    for name in names:
+        pref_key = norm_hero(name)
+        if pref_key in seen[owner_key][style_key]:
+            continue
+        seen[owner_key][style_key].add(pref_key)
+        result[owner_key][style_key].append(name)
+
+
+def build_playstyle_heroes_map(csv_path: Path) -> dict[str, dict[str, list[str]]]:
+    """norm_hero -> {dive|poke|brawl} -> ordered unique counter hero names from CSV."""
+    result: dict[str, dict[str, list[str]]] = {}
+    seen: dict[str, dict[str, set[str]]] = {}
+    style_cols = (
+        ("dive", PLAYSTYLE_DIVE_COL),
+        ("poke", PLAYSTYLE_POKE_COL),
+        ("brawl", PLAYSTYLE_BRAWL_COL),
+    )
+    with csv_path.open(encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        if not reader.fieldnames:
+            return result
+        for row in reader:
+            hero = (row.get("hero") or "").strip()
+            if not hero:
+                continue
+            owner_key = norm_hero(hero)
+            for style_key, col in style_cols:
+                if col not in (reader.fieldnames or []):
+                    continue
+                _append_playstyle_cell(
+                    result,
+                    seen,
+                    owner_key,
+                    style_key,
+                    row.get(col) or "",
+                )
+    return result
+
+
 def build_canonical_hero_map(abilities_path: Path) -> dict[str, str]:
     """norm_hero -> canonical hero name from abilities-data.json."""
     data = json.loads(abilities_path.read_text(encoding="utf-8"))
@@ -537,6 +589,39 @@ def apply_preferred_heroes(
             )
         out[owner_name] = entries
     data["preferred_counter_heroes"] = out
+    return len(out)
+
+
+def apply_playstyle_heroes(
+    data: dict,
+    playstyle_map: dict[str, dict[str, list[str]]],
+    hero_icon_map: dict[str, str],
+    canonical_hero_map: dict[str, str],
+    hero_notes: dict,
+) -> int:
+    """Store data['playstyle_counter_heroes'][owner][style] = [{hero, hero_icon}, ...]."""
+    owner_canonical = {norm_hero(h): h for h in hero_notes if isinstance(hero_notes.get(h), dict)}
+    out: dict[str, dict[str, list[dict[str, str]]]] = {}
+    for owner_key, styles in playstyle_map.items():
+        owner_name = owner_canonical.get(owner_key)
+        if not owner_name:
+            continue
+        style_out: dict[str, list[dict[str, str]]] = {}
+        for style_key in ("dive", "poke", "brawl"):
+            entries: list[dict[str, str]] = []
+            for pref in styles.get(style_key) or []:
+                resolved = resolve_hero_name(pref, canonical_hero_map)
+                pref_key = norm_hero(resolved or pref)
+                canonical = canonical_hero_map.get(pref_key, (resolved or pref).strip())
+                entries.append(
+                    {
+                        "hero": canonical,
+                        "hero_icon": hero_icon_map.get(pref_key, ""),
+                    }
+                )
+            style_out[style_key] = entries
+        out[owner_name] = style_out
+    data["playstyle_counter_heroes"] = out
     return len(out)
 
 
@@ -740,6 +825,7 @@ def main() -> None:
     ability_meta = build_ability_meta_map(csv_path)
     counter_map = build_counter_map(csv_path)
     preferred_map = build_preferred_heroes_map(csv_path)
+    playstyle_map = build_playstyle_heroes_map(csv_path)
     text = json_path.read_text(encoding="utf-8")
     data = json.loads(text)
 
@@ -758,6 +844,13 @@ def main() -> None:
     preferred_hero_count = apply_preferred_heroes(
         data,
         preferred_map,
+        hero_icon_map,
+        canonical_hero_map,
+        data.get("hero_notes") or {},
+    )
+    playstyle_hero_count = apply_playstyle_heroes(
+        data,
+        playstyle_map,
         hero_icon_map,
         canonical_hero_map,
         data.get("hero_notes") or {},
@@ -796,6 +889,7 @@ def main() -> None:
         f"counter picks missing hero_icon: {missing_hero_icon} | "
         f"missing-key warnings: {len(warnings)} | "
         f"preferred counter heroes: {preferred_hero_count} | "
+        f"playstyle counter heroes: {playstyle_hero_count} | "
         f"spreadsheet validation issues: {len(validation_issues)}"
     )
 

@@ -319,6 +319,45 @@
         border-radius: 3px;
       }
 
+      .slot-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .slot-playstyles {
+        display: flex;
+        gap: 0.15rem;
+        justify-content: center;
+      }
+      .ps-btn {
+        flex: 1;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: #0f1524;
+        color: var(--muted);
+        font-size: 0.48rem;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 0.12rem 0;
+        cursor: pointer;
+        line-height: 1.1;
+      }
+      .ps-btn:hover {
+        border-color: var(--muted);
+        color: var(--text);
+      }
+      .ps-btn.active {
+        border-color: var(--enemy);
+        background: rgba(255, 68, 68, 0.15);
+        color: #ffb0b0;
+      }
+      .playstyle-hint {
+        font-size: 0.78rem;
+        color: var(--gold);
+        margin: 0 0 0.5rem;
+      }
+
       /* hero picker grid */
       .picker-label {
         font-size: 0.78rem;
@@ -489,6 +528,12 @@
         flex-wrap: wrap;
         gap: 0.3rem;
       }
+      .cc-playstyle-notes {
+        margin-top: 0.35rem;
+        font-size: 0.68rem;
+        color: var(--muted);
+        line-height: 1.35;
+      }
       .cc-target-chip {
         display: inline-flex;
         align-items: center;
@@ -606,7 +651,8 @@
         <p class="subtitle">
           Pick the enemy team (or your own team) and instantly see which heroes
           best counter the lineup, ranked by how many enemies they're effective
-          against.
+          against. Tag enemy playstyles (Dive / Poke / Brawl) to factor in
+          rock-paper-scissors: Poke beats Brawl, Brawl beats Dive, Dive beats Poke.
         </p>
       </div>
     </header>
@@ -626,6 +672,23 @@
 
       function norm(s) {
         return (s || "").toLowerCase().trim();
+      }
+
+      /** Poke beats Brawl, Brawl beats Dive, Dive beats Poke. */
+      const PLAYSTYLE_BEATS = Object.freeze({
+        poke: "brawl",
+        brawl: "dive",
+        dive: "poke",
+      });
+      const PLAYSTYLES = ["dive", "poke", "brawl"];
+      const PLAYSTYLE_LABELS = Object.freeze({
+        dive: "Dive",
+        poke: "Poke",
+        brawl: "Brawl",
+      });
+
+      function counterPlaystyleFor(enemyStyle) {
+        return PLAYSTYLE_BEATS[enemyStyle] || null;
       }
 
       let iconByHero = new Map();
@@ -678,6 +741,43 @@
         return { heroMap, allHeroNames };
       }
 
+      function buildPlaystyleData(playstyleCounterHeroes, heroes) {
+        const playstyleHeroMap = new Map();
+
+        for (const hero of heroes) {
+          const key = norm(hero.hero);
+          if (hero.hero_icon) iconByHero.set(key, hero.hero_icon);
+        }
+
+        for (const [targetHero, styles] of Object.entries(
+          playstyleCounterHeroes || {},
+        )) {
+          const nHero = norm(targetHero);
+          if (!playstyleHeroMap.has(nHero)) {
+            playstyleHeroMap.set(nHero, {
+              dive: new Map(),
+              poke: new Map(),
+              brawl: new Map(),
+            });
+          }
+          const bucket = playstyleHeroMap.get(nHero);
+
+          for (const style of PLAYSTYLES) {
+            for (const entry of styles?.[style] || []) {
+              const pref = (entry.hero || "").trim();
+              const prefNorm = norm(pref);
+              if (!pref || prefNorm === "work in progress") continue;
+              if (entry.hero_icon) iconByHero.set(prefNorm, entry.hero_icon);
+              if (!bucket[style].has(prefNorm)) {
+                bucket[style].set(prefNorm, pref);
+              }
+            }
+          }
+        }
+
+        return playstyleHeroMap;
+      }
+
       // ─────────────────────────────────────────────────────────────────────────
       // Score candidates: given a set of target heroes, rank all other heroes
       // by how many targets list them as a preferred counter.
@@ -717,6 +817,94 @@
 
         return Array.from(candidates.values()).sort(
           (a, b) => b.score - a.score || a.hero.localeCompare(b.hero),
+        );
+      }
+
+      function scorePlaystyleCandidates(
+        targetHeroNorms,
+        enemyPlaystyles,
+        playstyleHeroMap,
+        allyNorms,
+        bannedNorms,
+      ) {
+        const candidates = new Map();
+
+        for (const targetNorm of targetHeroNorms) {
+          const enemyStyle = enemyPlaystyles.get(targetNorm);
+          if (!enemyStyle) continue;
+          const counterStyle = counterPlaystyleFor(enemyStyle);
+          if (!counterStyle) continue;
+
+          const entry = playstyleHeroMap.get(targetNorm);
+          if (!entry) continue;
+          const picks = entry[counterStyle];
+          if (!picks || picks.size === 0) continue;
+
+          const targetDisplay =
+            allHeroNames.get(targetNorm) || targetNorm;
+          const styleLabel = PLAYSTYLE_LABELS[enemyStyle];
+          const counterLabel = PLAYSTYLE_LABELS[counterStyle];
+
+          for (const [counterNorm, counterDisplay] of picks) {
+            if (targetHeroNorms.has(counterNorm)) continue;
+            if (bannedNorms.has(counterNorm)) continue;
+            if (!candidates.has(counterNorm)) {
+              candidates.set(counterNorm, {
+                hero: counterDisplay,
+                heroNorm: counterNorm,
+                score: 0,
+                targets: [],
+                playstyleNotes: [],
+                alreadyOnTeam: allyNorms.has(counterNorm),
+              });
+            }
+            const c = candidates.get(counterNorm);
+            c.score++;
+            c.targets.push(targetDisplay);
+            c.playstyleNotes.push(
+              `${targetDisplay}: ${counterLabel} vs ${styleLabel}`,
+            );
+          }
+        }
+
+        return Array.from(candidates.values()).sort(
+          (a, b) => b.score - a.score || a.hero.localeCompare(b.hero),
+        );
+      }
+
+      function mergeCandidateScores(preferred, playstyle) {
+        const merged = new Map();
+
+        for (const r of preferred) {
+          merged.set(r.heroNorm, {
+            ...r,
+            preferredScore: r.score,
+            playstyleScore: 0,
+            playstyleNotes: [],
+          });
+        }
+
+        for (const r of playstyle) {
+          if (merged.has(r.heroNorm)) {
+            const m = merged.get(r.heroNorm);
+            m.playstyleScore = r.score;
+            m.score = m.preferredScore + m.playstyleScore;
+            m.playstyleNotes = r.playstyleNotes || [];
+          } else {
+            merged.set(r.heroNorm, {
+              ...r,
+              preferredScore: 0,
+              playstyleScore: r.score,
+              score: r.score,
+            });
+          }
+        }
+
+        return Array.from(merged.values()).sort(
+          (a, b) =>
+            b.score - a.score ||
+            b.preferredScore - a.preferredScore ||
+            a.hero.localeCompare(b.hero),
         );
       }
 
@@ -763,10 +951,12 @@
       // State
       // ─────────────────────────────────────────────────────────────────────────
       let heroMap = new Map();
+      let playstyleHeroMap = new Map();
       let allHeroNames = new Map();
       let heroList = []; // sorted display names
 
       let enemyTeam = new Set();
+      let enemyPlaystyles = new Map(); // heroNorm -> dive|poke|brawl
       let allyTeam = new Set();
       let enemyBans = new Set();
       let allyBans = new Set();
@@ -786,10 +976,24 @@
         const allyBanSlots = buildSlotsHtml("ally", "bans");
         const bannedNorms = globalBans();
 
-        const results =
+        const preferredResults =
           enemyTeam.size > 0
             ? scoreCandidates(enemyTeam, heroMap, allyTeam, bannedNorms)
             : [];
+        const playstyleResults =
+          enemyTeam.size > 0 && enemyPlaystyles.size > 0
+            ? scorePlaystyleCandidates(
+                enemyTeam,
+                enemyPlaystyles,
+                playstyleHeroMap,
+                allyTeam,
+                bannedNorms,
+              )
+            : [];
+        const results = mergeCandidateScores(preferredResults, playstyleResults);
+        const taggedEnemyCount = [...enemyTeam].filter((h) =>
+          enemyPlaystyles.has(h),
+        ).length;
 
         const q = norm(filterQuery);
         const filteredHeroes = heroList.filter((h) => norm(h).includes(q));
@@ -841,7 +1045,7 @@
 
         <!-- Results -->
         <div class="results-panel">
-          ${buildResultsHtml(results, bannedNorms)}
+          ${buildResultsHtml(results, bannedNorms, taggedEnemyCount)}
         </div>
       `;
 
@@ -869,6 +1073,20 @@
               getBanSet(team).delete(hero);
             } else {
               getLineupSet(team).delete(hero);
+              if (team === "enemy") enemyPlaystyles.delete(hero);
+            }
+            render();
+          });
+        });
+
+        app.querySelectorAll("[data-set-playstyle]").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const { hero, style } = btn.dataset;
+            if (enemyPlaystyles.get(hero) === style) {
+              enemyPlaystyles.delete(hero);
+            } else {
+              enemyPlaystyles.set(hero, style);
             }
             render();
           });
@@ -887,6 +1105,7 @@
               } else if (banSet.size < 3) {
                 banSet.add(hero);
                 enemyTeam.delete(hero);
+                enemyPlaystyles.delete(hero);
                 allyTeam.delete(hero);
               }
             } else {
@@ -894,6 +1113,7 @@
               const lineup = getLineupSet(team);
               if (lineup.has(hero)) {
                 lineup.delete(hero);
+                if (team === "enemy") enemyPlaystyles.delete(hero);
               } else if (lineup.size < 6) {
                 lineup.add(hero);
               }
@@ -908,20 +1128,33 @@
         const maxSlots = slotType === "bans" ? 3 : 6;
         const members = Array.from(set);
         const banClass = slotType === "bans" ? " hero-slot--ban" : "";
+        const showPlaystyles = team === "enemy" && slotType === "lineup";
         let html = "";
         for (let i = 0; i < maxSlots; i++) {
           if (i < members.length) {
             const normName = members[i];
             const display = allHeroNames.get(normName) || normName;
             const portrait = getPortrait(display);
-            html += `
+            const playstyleBtns = showPlaystyles
+              ? `<div class="slot-playstyles">${PLAYSTYLES.map(
+                  (ps) => `<button type="button" class="ps-btn${
+                    enemyPlaystyles.get(normName) === ps ? " active" : ""
+                  }" data-set-playstyle data-hero="${escHtml(normName)}" data-style="${ps}" title="${PLAYSTYLE_LABELS[ps]} playstyle">${PLAYSTYLE_LABELS[ps].slice(0, 1)}</button>`,
+                ).join("")}</div>`
+              : "";
+            const wrapOpen = showPlaystyles ? `<div class="slot-wrap">` : "";
+            const wrapClose = showPlaystyles ? `${playstyleBtns}</div>` : "";
+            html += `${wrapOpen}
             <div class="hero-slot filled${banClass}" title="${escHtml(display)}">
               ${portrait ? `<img src="${portrait}" alt="${escHtml(display)}" loading="lazy"/>` : `<span style="font-size:.65rem;padding:.3rem;text-align:center">${escHtml(display)}</span>`}
               <span class="slot-name">${escHtml(display)}</span>
               <button class="slot-remove" data-remove data-team="${team}" data-slot-type="${slotType}" data-hero="${escHtml(normName)}" title="Remove">✕</button>
-            </div>`;
+            </div>${wrapClose}`;
           } else {
-            html += `<div class="hero-slot${banClass}"><span>+</span></div>`;
+            const emptyWrap = showPlaystyles
+              ? `<div class="slot-wrap"><div class="hero-slot${banClass}"><span>+</span></div><div class="slot-playstyles" aria-hidden="true"></div></div>`
+              : `<div class="hero-slot${banClass}"><span>+</span></div>`;
+            html += emptyWrap;
           }
         }
         return html;
@@ -982,7 +1215,7 @@
           .join("");
       }
 
-      function buildResultsHtml(results, bannedNorms) {
+      function buildResultsHtml(results, bannedNorms, taggedEnemyCount) {
         if (enemyTeam.size === 0) {
           return `
           <h2>Counter Recommendations</h2>
@@ -993,7 +1226,7 @@
         if (results.length === 0) {
           return `
           <h2>Counter Recommendations</h2>
-          <p class="results-subtitle">No preferred counter data found for this lineup yet — check back as the dataset grows.</p>`;
+          <p class="results-subtitle">No counter data found for this lineup yet — check back as the dataset grows.</p>`;
         }
 
         const onTeam = results.filter((r) => r.alreadyOnTeam);
@@ -1001,15 +1234,20 @@
         const slotsRemaining = Math.max(0, 6 - allyTeam.size);
         const enemyCount = enemyTeam.size;
         const banCount = bannedNorms.size;
+        const hasPlaystyle = taggedEnemyCount > 0;
 
         let html = `
         <h2>Counter Recommendations</h2>
         <p class="results-subtitle">
           Based on preferred counters for the ${enemyCount} enemy hero${enemyCount !== 1 ? "es" : ""} selected.
-          Score = how many enemies this hero is listed as a preferred counter against.
+          Score combines ability counters${hasPlaystyle ? ` plus playstyle matchups for ${taggedEnemyCount} tagged enemy${taggedEnemyCount !== 1 ? "s" : ""}` : ""}.
           ${banCount > 0 ? `${banCount} hero${banCount !== 1 ? "es" : ""} banned and excluded from suggestions.` : ""}
           ${allyTeam.size > 0 ? `${allyTeam.size} ally slot${allyTeam.size !== 1 ? "s" : ""} filled — ${slotsRemaining} remaining to cover enemy weaknesses.` : ""}
         </p>`;
+
+        if (!hasPlaystyle && enemyCount > 0) {
+          html += `<p class="playstyle-hint">Tip: tag enemy playstyles (D/P/B under lineup slots) to apply Poke → Brawl → Dive → Poke.</p>`;
+        }
 
         if (onTeam.length) {
           html += `<p class="section-label green" style="color:var(--green)">✓ Already on your team</p>`;
@@ -1027,8 +1265,8 @@
 
       function cardHtml(r, isTop) {
         const portrait = getPortrait(r.hero);
-        const pct = Math.round((r.score / enemyTeam.size) * 100);
-        // dedupe targets
+        const preferredScore = r.preferredScore ?? r.score;
+        const playstyleScore = r.playstyleScore ?? 0;
         const uniqueTargets = [...new Set(r.targets)];
 
         const targetChips = uniqueTargets
@@ -1041,12 +1279,31 @@
           })
           .join("");
 
+        const scoreParts = [];
+        if (preferredScore > 0) {
+          scoreParts.push(`${preferredScore} ability`);
+        }
+        if (playstyleScore > 0) {
+          scoreParts.push(`${playstyleScore} playstyle`);
+        }
+        const scoreLine =
+          scoreParts.length > 0
+            ? scoreParts.join(" + ")
+            : `${r.score} / ${enemyTeam.size}`;
+
         const alreadyBadge = r.alreadyOnTeam
           ? `<span class="cc-badge already">On Team</span>`
           : "";
         const topBadge =
           isTop && !r.alreadyOnTeam
             ? `<span class="cc-badge gap">Top Pick</span>`
+            : "";
+
+        const playstyleDetail =
+          playstyleScore > 0 && r.playstyleNotes?.length
+            ? `<div class="cc-playstyle-notes">${[...new Set(r.playstyleNotes)]
+                .map((n) => escHtml(n))
+                .join(" · ")}</div>`
             : "";
 
         return `
@@ -1059,11 +1316,12 @@
             }
             <div>
               <div class="cc-hero-name">${escHtml(r.hero)}</div>
-              <div class="cc-score"><span class="star">★</span> ${r.score} / ${enemyTeam.size} countered</div>
+              <div class="cc-score"><span class="star">★</span> ${scoreLine}</div>
             </div>
           </div>
           ${alreadyBadge || topBadge ? `<div class="cc-badge-row">${alreadyBadge}${topBadge}</div>` : ""}
           <div class="cc-targets">${targetChips}</div>
+          ${playstyleDetail}
         </div>`;
       }
 
@@ -1086,9 +1344,12 @@
           const heroes = abilityData.heroes || [];
           const preferredCounterHeroes =
             (notesData && notesData.preferred_counter_heroes) || {};
+          const playstyleCounterHeroes =
+            (notesData && notesData.playstyle_counter_heroes) || {};
           const built = buildData(preferredCounterHeroes, heroes);
           heroMap = built.heroMap;
           allHeroNames = built.allHeroNames;
+          playstyleHeroMap = buildPlaystyleData(playstyleCounterHeroes, heroes);
 
           heroList = heroes.map((h) => h.hero).sort((a, b) => a.localeCompare(b));
 
